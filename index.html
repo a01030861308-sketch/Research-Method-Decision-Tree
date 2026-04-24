@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Research Method Decision Tree</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #f7f8fa;
+  color: #1a1f28;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 300;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+.wrap { max-width: 560px; width: 100%; }
+
+.header { margin-bottom: 2.5rem; }
+.header-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: #4a7c6f;
+  margin-bottom: 10px;
+}
+.header-title {
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: #1a1f28;
+  line-height: 1.35;
+  margin-bottom: 6px;
+}
+.header-sub {
+  font-size: 13px;
+  color: #9aa0ad;
+  font-family: 'DM Mono', monospace;
+}
+
+.card-list { display: flex; flex-direction: column; gap: 10px; }
+
+.card {
+  background: #ffffff;
+  border: 1px solid #e4e7ed;
+  border-radius: 10px;
+  padding: 1.25rem 1.4rem;
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color .18s, box-shadow .18s, transform .18s;
+}
+.card:hover {
+  border-color: #8fbdb5;
+  box-shadow: 0 4px 16px rgba(74,124,111,0.08);
+  transform: translateY(-1px);
+}
+.card-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  color: #4a7c6f;
+  min-width: 24px;
+}
+.card-body { flex: 1; }
+.card-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1a1f28;
+  margin-bottom: 3px;
+  line-height: 1.4;
+}
+.card-desc {
+  font-size: 12px;
+  color: #9aa0ad;
+  font-family: 'DM Mono', monospace;
+}
+.card-arrow {
+  font-size: 16px;
+  color: #cdd2db;
+  transition: color .18s, transform .18s;
+}
+.card:hover .card-arrow {
+  color: #4a7c6f;
+  transform: translateX(3px);
+}
+
+.footer {
+  margin-top: 2rem;
+  text-align: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: #cdd2db;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="header">
+    <div class="header-label">Research Method Guide</div>
+    <div class="header-title">연구 방법 의사결정 가이드</div>
+    <div class="header-sub">Research-Method-Decision-Tree</div>
+  </div>
+
+  <div class="card-list">
+
+    <a class="card" href="01_statistical_test_selection.html">
+      <div class="card-num">01</div>
+      <div class="card-body">
+        <div class="card-title">통계 검정 선택</div>
+        <div class="card-desc">01_statistical_test_selection.html</div>
+      </div>
+      <div class="card-arrow">→</div>
+    </a>
+
+    <a class="card" href="02_research_design_selection.html">
+      <div class="card-num">02</div>
+      <div class="card-body">
+        <div class="card-title">연구 설계 선택</div>
+        <div class="card-desc">02_research_design_selection.html</div>
+      </div>
+      <div class="card-arrow">→</div>
+    </a>
+
+    <a class="card" href="03_sampling_method_selection.html">
+      <div class="card-num">03</div>
+      <div class="card-body">
+        <div class="card-title">표집 방법 선택</div>
+        <div class="card-desc">03_sampling_method_selection.html</div>
+      </div>
+      <div class="card-arrow">→</div>
+    </a>
+
+  </div>
+
+  <div class="footer">Cheongju University · Research Method Decision Tree</div>
+
+</div>
+</body>
+</html>
