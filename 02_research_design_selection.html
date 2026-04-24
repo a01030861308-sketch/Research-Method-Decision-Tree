@@ -1,0 +1,765 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>연구 설계 선택 · 초보자용 가이드</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:#18202C; --ink-70:#18202Cb3; --ink-50:#18202C80; --ink-20:#18202C33; --ink-10:#18202C1a; --ink-05:#18202C0d;
+    --paper:#F2EFE4; --paper-warm:#EAE6D3; --card:#FDFCF5;
+    --accent:#4F6B2E; --accent-dark:#3B5022; --accent-soft:#4F6B2E1a; --accent-mid:#4F6B2E33;
+    --tip:#8B5A2B; --tip-soft:#8B5A2B14; --rule:#18202C26;
+    --shadow-sm:0 1px 2px #18202C14, 0 0 0 0.5px #18202C1a;
+    --shadow-md:0 6px 24px -8px #18202C2e, 0 2px 6px -2px #18202C1a, 0 0 0 0.5px #18202C1f;
+    --shadow-lg:0 24px 60px -20px #18202C4a, 0 8px 20px -6px #18202C26;
+    --serif:'Fraunces',ui-serif,Georgia,serif; --sans:'IBM Plex Sans KR',ui-sans-serif,system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+  }
+  *{box-sizing:border-box} html,body{margin:0;padding:0}
+  body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(1200px 800px at 85% -10%,#4F6B2E0d,transparent 60%),radial-gradient(1000px 600px at -10% 110%,#18202C0a,transparent 55%);background-attachment:fixed}
+  body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.09  0 0 0 0 0.12  0 0 0 0 0.17  0 0 0 0.05 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");opacity:.5;pointer-events:none;mix-blend-mode:multiply;z-index:0}
+  .wrap{position:relative;z-index:1;max-width:1280px;margin:0 auto;padding:44px 40px 80px}
+  @media(max-width:860px){.wrap{padding:24px 18px 48px}}
+  header.masthead{margin-bottom:28px;padding-bottom:24px;border-bottom:1px solid var(--rule)}
+  .top-row{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap}
+  .kicker{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-70)}
+  .kicker .dot{width:6px;height:6px;background:var(--accent);border-radius:50%}
+  h1.title{font-family:var(--serif);font-weight:500;font-style:italic;font-size:clamp(30px,4vw,52px);line-height:1.02;letter-spacing:-0.01em;margin:10px 0 6px;color:var(--ink)}
+  .title em{font-style:normal;font-weight:700}
+  .badge-beginner{display:inline-block;margin-left:10px;vertical-align:middle;background:var(--accent);color:#F5F7EC;font-family:var(--mono);font-size:10px;letter-spacing:.16em;font-style:normal;padding:5px 10px;border-radius:2px;transform:translateY(-6px)}
+  .subtitle{font-family:var(--serif);font-weight:400;font-size:clamp(15px,1.3vw,18px);color:var(--ink-70);max-width:60ch}
+  .glossary-btn{font:inherit;font-family:var(--mono);font-size:11px;letter-spacing:.08em;background:var(--card);color:var(--ink);border:1px solid var(--ink-20);border-radius:2px;padding:8px 14px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;transition:all .15s ease}
+  .glossary-btn:hover{background:var(--accent);color:#F5F7EC;border-color:var(--accent)}
+  .intro{margin-top:18px;background:var(--card);border:1px solid var(--ink-10);border-radius:4px;padding:18px 22px;box-shadow:var(--shadow-sm);display:flex;gap:14px;align-items:flex-start}
+  .intro .ic{font-size:18px;line-height:1.5} .intro p{margin:0;color:var(--ink-70);font-size:14px;line-height:1.7} .intro b{color:var(--ink);font-weight:600}
+  .stage{display:grid;grid-template-columns:1.35fr 1fr;gap:40px;align-items:start}
+  @media(max-width:1040px){.stage{grid-template-columns:1fr;gap:28px}}
+  .path{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;min-height:28px}
+  .chip{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:.04em;background:var(--card);color:var(--ink-70);padding:5px 10px 5px 8px;border-radius:999px;border:1px solid var(--ink-10);box-shadow:var(--shadow-sm);animation:chipIn .35s ease both}
+  .chip .num{width:16px;height:16px;border-radius:999px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-weight:600;font-size:10px}
+  .chip .arrow{color:var(--ink-20);margin-left:2px}
+  @keyframes chipIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+  .card{background:var(--card);border:1px solid var(--ink-10);border-radius:4px;padding:34px 36px 28px;box-shadow:var(--shadow-md);position:relative}
+  .card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent)}
+  @media(max-width:560px){.card{padding:24px 20px 20px}}
+  .q-num{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--accent);text-transform:uppercase;margin-bottom:10px}
+  .q-ko{font-family:var(--serif);font-weight:500;font-size:clamp(22px,2.3vw,28px);line-height:1.3;color:var(--ink);margin-bottom:4px}
+  .q-en{font-family:var(--serif);font-weight:400;font-style:italic;color:var(--ink-50);font-size:14.5px;margin-bottom:4px}
+  .example{margin-top:18px;padding:14px 16px;background:var(--tip-soft);border-left:3px solid var(--tip);font-size:13.5px;color:var(--ink);border-radius:0 3px 3px 0}
+  .example b{color:var(--tip);font-weight:600} .example .ic{display:inline-block;margin-right:6px}
+  .hint{margin-top:12px;padding:12px 14px;background:var(--paper-warm);border-left:2px solid var(--accent-mid);font-size:13.5px;color:var(--ink-70);border-radius:0 3px 3px 0}
+  .hint b{color:var(--ink);font-weight:600}
+  details.unsure{margin-top:12px}
+  details.unsure summary{cursor:pointer;list-style:none;font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--accent);padding:8px 0;user-select:none;display:inline-flex;align-items:center;gap:6px}
+  details.unsure summary::-webkit-details-marker{display:none}
+  details.unsure summary::before{content:'▸';font-family:var(--mono);transition:transform .2s ease;display:inline-block}
+  details.unsure[open] summary::before{transform:rotate(90deg)}
+  details.unsure .unsure-body{padding:12px 14px;margin-top:6px;background:#fbf6e4;border-left:2px solid #c9b470;font-size:13px;color:var(--ink-70);border-radius:0 3px 3px 0}
+  details.unsure .unsure-body b{color:var(--ink);font-weight:600}
+  .options{display:flex;flex-direction:column;gap:10px;margin-top:26px}
+  .opt{display:grid;grid-template-columns:auto 1fr auto;align-items:flex-start;gap:16px;width:100%;text-align:left;background:var(--card);color:var(--ink);border:1px solid var(--ink-10);border-radius:3px;padding:15px 18px;cursor:pointer;font:inherit;transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease,background .15s ease;box-shadow:var(--shadow-sm)}
+  .opt:hover{border-color:var(--accent);background:linear-gradient(to right,var(--accent-soft),transparent 55%);transform:translateX(2px);box-shadow:var(--shadow-md)}
+  .opt:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .opt .idx{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--accent);font-weight:500;width:22px;text-align:left;padding-top:2px}
+  .opt .lbl{display:flex;flex-direction:column;gap:4px}
+  .opt .lbl .ko{font-size:15.5px;font-weight:500;color:var(--ink);line-height:1.4}
+  .opt .lbl .en{font-family:var(--serif);font-style:italic;font-size:12.5px;color:var(--ink-50)}
+  .opt .lbl .eg{font-size:12.5px;color:var(--ink-70);background:var(--ink-05);padding:4px 8px;border-radius:2px;margin-top:2px;display:inline-block;width:fit-content}
+  .opt .go{font-family:var(--mono);font-size:18px;color:var(--ink-20);transition:transform .2s ease,color .2s ease;padding-top:4px}
+  .opt:hover .go{color:var(--accent);transform:translateX(4px)}
+  .controls{display:flex;gap:10px;margin-top:24px;padding-top:20px;border-top:1px dashed var(--ink-10)}
+  .btn{font:inherit;font-family:var(--mono);font-size:12px;letter-spacing:.06em;padding:9px 14px;border-radius:2px;background:transparent;color:var(--ink-70);border:1px solid var(--ink-20);cursor:pointer;transition:all .15s ease}
+  .btn:hover{border-color:var(--ink);color:var(--ink);background:var(--ink-05)}
+  .btn.primary{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .btn.primary:hover{background:var(--accent);border-color:var(--accent);color:white}
+  .result-wrap{animation:fadeUp .5s ease both}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .result{background:var(--card);border:1px solid var(--ink-10);border-radius:4px;overflow:hidden;box-shadow:var(--shadow-lg)}
+  .result-head{padding:26px 32px 22px;background:linear-gradient(180deg,var(--accent) 0%,var(--accent-dark) 100%);color:#F5F7EC;position:relative}
+  .result-head::after{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.4' numOctaves='2'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.15 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");mix-blend-mode:overlay;pointer-events:none;opacity:.6}
+  .result-head .label{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;opacity:.85}
+  .result-head .name-ko{font-family:var(--serif);font-weight:600;font-size:clamp(26px,3.2vw,38px);line-height:1.1;margin-top:8px;letter-spacing:-0.01em}
+  .result-head .name-en{font-family:var(--serif);font-style:italic;font-weight:400;font-size:16px;opacity:.9;margin-top:4px}
+  .result-body{padding:24px 32px 26px}
+  .result-body h4{margin:18px 0 8px;font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:500}
+  .result-body h4:first-child{margin-top:0}
+  .result-body p{margin:0 0 14px;color:var(--ink);font-size:14.5px;line-height:1.7}
+  .result-body .study{margin:0 0 14px;padding:14px 16px;background:var(--tip-soft);border-left:3px solid var(--tip);font-size:13.5px;color:var(--ink);border-radius:0 3px 3px 0}
+  .result-body .study b{color:var(--tip);font-weight:600}
+  .result-body .en-note{font-family:var(--serif);font-style:italic;color:var(--ink-50);font-size:13.5px;padding-left:14px;border-left:2px solid var(--accent-mid)}
+  .result-body .ref{margin-top:20px;padding-top:18px;border-top:1px solid var(--ink-10);font-family:var(--mono);font-size:11px;color:var(--ink-50);letter-spacing:.04em}
+  .result-body .ref b{color:var(--ink);font-weight:500}
+  aside.tree-panel{position:sticky;top:24px;background:var(--card);border:1px solid var(--ink-10);border-radius:4px;padding:22px 22px 18px;box-shadow:var(--shadow-md);max-height:calc(100vh - 48px);overflow:auto}
+  @media(max-width:1040px){aside.tree-panel{position:static;max-height:none}}
+  .tree-title{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-50);margin-bottom:2px}
+  .tree-sub{font-family:var(--serif);font-style:italic;font-size:13px;color:var(--ink-50);margin-bottom:14px}
+  .tree-list{list-style:none;padding:0;margin:0;font-size:13px}
+  .tree-list ul{list-style:none;padding-left:14px;margin:4px 0;border-left:1px dashed var(--ink-10)}
+  .tree-list li{padding:3px 0 3px 10px;position:relative;color:var(--ink-70);transition:color .2s}
+  .tree-list li.group{font-weight:600;color:var(--ink);margin-top:6px;font-size:12px;letter-spacing:.02em;padding-left:0}
+  .tree-list li.leaf::before{content:'·';position:absolute;left:0;color:var(--ink-20)}
+  .tree-list li.leaf.active{color:var(--accent);font-weight:600}
+  .tree-list li.leaf.active::before{content:'●';color:var(--accent);font-size:9px;top:1px}
+  footer.foot{margin-top:48px;padding-top:20px;border-top:1px solid var(--rule);font-family:var(--mono);font-size:11px;color:var(--ink-50);letter-spacing:.04em;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+  .progress{height:2px;background:var(--ink-10);border-radius:999px;overflow:hidden;margin-bottom:18px}
+  .progress span{display:block;height:100%;background:var(--accent);transition:width .4s cubic-bezier(.4,0,.2,1)}
+  .drawer-overlay{position:fixed;inset:0;background:#18202C88;opacity:0;pointer-events:none;transition:opacity .25s ease;z-index:100}
+  .drawer-overlay.open{opacity:1;pointer-events:auto}
+  .drawer{position:fixed;top:0;right:0;bottom:0;width:460px;max-width:90vw;background:var(--paper);border-left:1px solid var(--ink-10);box-shadow:-20px 0 60px -20px #18202C55;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);z-index:101;overflow-y:auto}
+  .drawer.open{transform:translateX(0)}
+  .drawer-head{position:sticky;top:0;background:var(--paper);padding:22px 28px 16px;border-bottom:1px solid var(--ink-10);display:flex;justify-content:space-between;align-items:center;z-index:1}
+  .drawer-head h3{margin:0;font-family:var(--serif);font-weight:600;font-size:22px}
+  .drawer-close{background:none;border:none;font-size:22px;cursor:pointer;color:var(--ink-50);padding:4px 10px}
+  .drawer-close:hover{color:var(--ink)}
+  .drawer-body{padding:20px 28px 40px}
+  .drawer-body .group-head{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin:24px 0 10px;font-weight:500;padding-top:12px;border-top:1px dashed var(--ink-10)}
+  .drawer-body .group-head:first-child{margin-top:0;border-top:none;padding-top:0}
+  .drawer-body dl{margin:0}
+  .drawer-body dt{font-weight:600;font-size:14.5px;color:var(--ink);margin-top:14px}
+  .drawer-body dt .en{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--ink-50);font-size:13px;margin-left:6px}
+  .drawer-body dd{margin:4px 0 0;font-size:13.5px;color:var(--ink-70);line-height:1.65}
+  .drawer-body dd b{color:var(--ink)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="masthead">
+    <div class="top-row">
+      <div>
+        <div class="kicker"><span class="dot"></span><span>Decision Tree · 02 of 03</span><span style="color:var(--ink-20)">—</span><span>Portney &amp; Watkins (3e) · 초보자용</span></div>
+        <h1 class="title">어떤 <em>연구 설계</em>를 골라야 할까<span class="badge-beginner">BEGINNER</span></h1>
+        <div class="subtitle">RCT? 코호트? 환자-대조? 용어부터 어렵다면, 예시와 안전한 기본값을 따라가며 가장 맞는 설계를 찾아보세요.</div>
+      </div>
+      <button class="glossary-btn" id="openGlossary" type="button">📖 용어 사전 열기</button>
+    </div>
+    <div class="intro">
+      <span class="ic">🧭</span>
+      <p><b>처음이라면</b> — 연구 설계를 고르는 일은 <b>네 가지 큰 질문</b>으로 시작됩니다: ① 무언가가 효과 있는지 검증하려는가(실험), ② 이미 존재하는 변수 간 관계를 관찰하려는가(관찰), ③ 어떤 현상·집단을 상세히 기술하려는가(기술), ④ 이미 나온 연구들을 종합하려는가(통합). 확신이 없으면 <b>"잘 모르겠다면"</b> 섹션의 안전한 기본값과 이유를 참고하세요. 실제 논문 예시는 각 결과 카드의 <b>💡 예시 연구</b>에 있습니다.</p>
+    </div>
+  </header>
+  <div class="stage">
+    <main>
+      <div class="progress" aria-hidden="true"><span id="prog" style="width:0%"></span></div>
+      <div id="path" class="path"></div>
+      <div id="view"></div>
+      <div class="controls">
+        <button class="btn" id="back" type="button">← 뒤로 / Back</button>
+        <button class="btn primary" id="reset" type="button">처음부터 / Restart</button>
+      </div>
+    </main>
+    <aside class="tree-panel" aria-label="전체 트리 미리보기">
+      <div class="tree-title">Full Tree · 전체 구조</div>
+      <div class="tree-sub">진행 중인 경로가 강조되어 표시됩니다</div>
+      <ul class="tree-list" id="tree"></ul>
+    </aside>
+  </div>
+  <footer class="foot">
+    <span>출처 · Portney LG, Watkins MP. <i>Foundations of Clinical Research</i>, 3rd ed. Pearson, 2009.</span>
+    <span>초보자용 재구성 · Beginner edition</span>
+  </footer>
+</div>
+
+<div class="drawer-overlay" id="drawerOverlay"></div>
+<aside class="drawer" id="drawer" aria-labelledby="drawerTitle">
+  <div class="drawer-head">
+    <h3 id="drawerTitle">용어 사전 <span style="font-family:var(--serif);font-style:italic;font-weight:400;color:var(--ink-50);font-size:15px">Glossary</span></h3>
+    <button class="drawer-close" id="closeGlossary" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="drawer-body">
+    <div class="group-head">1. 연구 설계 기본 용어</div>
+    <dl>
+      <dt>독립변수 · 종속변수 <span class="en">IV · DV</span></dt>
+      <dd><b>독립변수</b>는 "원인이라 의심되는 값"(치료 종류, 운동량), <b>종속변수</b>는 "측정하려는 결과값"(통증 점수, 혈압).</dd>
+      <dt>중재 · 개입 <span class="en">intervention</span></dt>
+      <dd>연구자가 <b>의도적으로 부여</b>하는 치료·훈련·프로그램. 중재가 있으면 실험 연구, 없으면 관찰 연구.</dd>
+      <dt>무작위 배정 <span class="en">random assignment</span></dt>
+      <dd>참여자가 어느 집단에 들어갈지 <b>동전 던지기처럼 우연</b>에 맡기는 것. 두 집단 간 차이가 "처음부터 달라서"가 아님을 보장합니다. <b>무작위 표집과 다름</b>.</dd>
+      <dt>무작위 표집 <span class="en">random sampling</span></dt>
+      <dd>모집단에서 참여자를 뽑을 때 모두가 같은 확률로 뽑히도록 하는 것. <b>대표성</b> 확보를 위한 것.</dd>
+      <dt>교란변수 <span class="en">confounder</span></dt>
+      <dd>독립변수와 종속변수 둘 다와 관련이 있어 <b>진짜 인과관계를 흐리게 하는</b> 제3의 변수. 예: "커피가 심장병을 유발한다"고 보일 때 숨은 교란은 <b>흡연</b>.</dd>
+      <dt>내적타당도 <span class="en">internal validity</span></dt>
+      <dd>"결과가 정말 그 원인 때문인가?"를 보는 성질. 무작위 배정·적절한 대조군이 이를 높입니다.</dd>
+      <dt>외적타당도 <span class="en">external validity</span></dt>
+      <dd>"이 결과를 다른 환자·병원·시기에도 일반화할 수 있는가?" 엄격한 RCT는 내적타당도는 높지만 외적타당도가 낮을 수 있습니다.</dd>
+    </dl>
+
+    <div class="group-head">2. 실험 설계 용어</div>
+    <dl>
+      <dt>RCT · 무작위 대조시험 <span class="en">randomized controlled trial</span></dt>
+      <dd>참여자를 무작위로 치료군과 대조군에 배정하고 결과를 비교하는 실험. <b>인과관계 근거 수준의 최고 표준</b>.</dd>
+      <dt>평행군 설계 <span class="en">parallel-group</span></dt>
+      <dd>각 참여자가 <b>한 가지 치료만</b> 받는 가장 흔한 RCT. A약만 받거나 B약만 받음.</dd>
+      <dt>교차 설계 <span class="en">crossover</span></dt>
+      <dd>같은 참여자가 <b>여러 치료를 순서를 바꿔가며</b> 받음. 세척 기간(washout)으로 앞 치료의 잔여 효과를 없앱니다.</dd>
+      <dt>요인 설계 <span class="en">factorial</span></dt>
+      <dd><b>두 가지 이상의 중재</b>를 동시에 비교. 각 중재의 효과 + 상호작용을 함께 검정.</dd>
+      <dt>군집 RCT <span class="en">cluster RCT</span></dt>
+      <dd>개인이 아니라 <b>병원·학교·팀 단위</b>로 배정. 같은 군집 내 사람들은 비슷해지는 경향이 있으므로 분석 시 보정 필요.</dd>
+      <dt>단일대상 설계 <span class="en">single-subject / N-of-1</span></dt>
+      <dd>한 명 또는 소수의 참여자에서 <b>기저선(A) ↔ 중재(B)</b>를 반복하며 변화를 관찰. 희귀 질환·개별화 치료 연구에 유용.</dd>
+      <dt>세척 기간 · 이월 효과 <span class="en">washout · carry-over</span></dt>
+      <dd>교차 설계에서 앞 치료의 효과가 뒤로 새어 나가는 것을 <b>이월 효과</b>라 하며, 이를 막기 위한 휴지기를 <b>세척 기간</b>이라 합니다.</dd>
+      <dt>맹검 <span class="en">blinding</span></dt>
+      <dd>참여자·연구자가 누가 어느 집단인지 모르게 하는 것. 단일·이중·삼중 맹검.</dd>
+    </dl>
+
+    <div class="group-head">3. 준실험 용어</div>
+    <dl>
+      <dt>준실험 설계 <span class="en">quasi-experimental</span></dt>
+      <dd>중재는 있지만 <b>무작위 배정이 불가능한</b> 설계. 이미 존재하는 집단(한 학교 vs 다른 학교)을 비교.</dd>
+      <dt>비동등 집단 <span class="en">nonequivalent groups</span></dt>
+      <dd>무작위 배정 없이 형성된 두 집단을 사전·사후 비교. 출발점 차이가 있을 수 있어 공변량 보정 필요.</dd>
+      <dt>시계열 · 단절 시계열 <span class="en">time-series · ITS</span></dt>
+      <dd>한 집단에서 <b>중재 전과 후의 여러 시점</b>을 측정하여 변화의 방향·기울기 비교.</dd>
+    </dl>
+
+    <div class="group-head">4. 관찰 연구 용어</div>
+    <dl>
+      <dt>코호트 연구 <span class="en">cohort study</span></dt>
+      <dd>노출된 집단과 노출되지 않은 집단을 <b>시간에 따라 따라가며</b> 결과 발생률을 비교. 전향적(지금부터 추적) 또는 후향적(과거 기록).</dd>
+      <dt>환자-대조군 연구 <span class="en">case-control</span></dt>
+      <dd><b>이미 병에 걸린 사람</b>과 <b>걸리지 않은 사람</b>을 뽑아 과거 노출 여부를 비교. 희귀질환 연구에 적합.</dd>
+      <dt>횡단 연구 <span class="en">cross-sectional</span></dt>
+      <dd><b>한 시점</b>에 노출과 결과를 동시에 측정. 유병률 추정과 연관성 탐색에 쓰임. 인과 방향 판단은 어려움.</dd>
+      <dt>발생률 · 유병률 <span class="en">incidence · prevalence</span></dt>
+      <dd><b>발생률</b>은 일정 기간에 새로 생기는 환자 비율, <b>유병률</b>은 한 시점에 병이 있는 사람 비율.</dd>
+      <dt>상대위험도 · 오즈비 <span class="en">relative risk · odds ratio</span></dt>
+      <dd><b>RR</b>은 노출군과 비노출군의 발생 위험 비율(코호트에서 사용), <b>OR</b>은 사건 대 비사건의 비율의 비(환자-대조군에서 사용).</dd>
+      <dt>회상 바이어스 <span class="en">recall bias</span></dt>
+      <dd>환자와 대조군이 과거 노출을 다르게 기억하여 생기는 오류. 환자-대조 설계의 대표적 한계.</dd>
+      <dt>선택 바이어스 <span class="en">selection bias</span></dt>
+      <dd>표본이 모집단을 대표하지 못해 결과가 왜곡되는 오류.</dd>
+    </dl>
+
+    <div class="group-head">5. 질적 연구 용어</div>
+    <dl>
+      <dt>현상학 <span class="en">phenomenology</span></dt>
+      <dd>특정 경험의 <b>살아 있는 본질</b>(예: 만성통증을 살아간다는 것)을 이해하려는 질적 접근.</dd>
+      <dt>문화기술지 <span class="en">ethnography</span></dt>
+      <dd>특정 집단·문화에 오래 몰입하며 <b>그들의 일상과 의미</b>를 기술.</dd>
+      <dt>근거이론 <span class="en">grounded theory</span></dt>
+      <dd>자료에서 출발하여 <b>새 이론을 귀납적으로</b> 구축하는 접근.</dd>
+      <dt>내러티브 연구 <span class="en">narrative inquiry</span></dt>
+      <dd>개인의 이야기·삶의 궤적을 분석하여 의미 구조를 이해.</dd>
+    </dl>
+
+    <div class="group-head">6. 통합 연구 용어</div>
+    <dl>
+      <dt>체계적 고찰 <span class="en">systematic review</span></dt>
+      <dd>엄밀한 사전 계획(프로토콜)에 따라 관련 연구를 <b>빠짐없이 수집·평가·요약</b>하는 연구. 편향을 최소화.</dd>
+      <dt>메타분석 <span class="en">meta-analysis</span></dt>
+      <dd>체계적 고찰 안에서 <b>여러 연구의 수치를 통계적으로 통합</b>하여 하나의 효과 크기로 요약.</dd>
+      <dt>PRISMA</dt>
+      <dd>체계적 고찰 보고의 <b>표준 체크리스트와 흐름도</b>. 투명한 보고를 위한 국제 기준.</dd>
+      <dt>출판 편향 <span class="en">publication bias</span></dt>
+      <dd>유의한 결과를 낸 연구만 출판되어 <b>전체 효과가 과장</b>되는 현상. Funnel plot 등으로 탐지.</dd>
+    </dl>
+  </div>
+</aside>
+
+<script>
+const nodes = {
+  start: {
+    q_ko:"당신의 연구 목적은 무엇에 가장 가깝나요?", q_en:"What is the primary aim of your study?",
+    hint:"연구 설계는 <b>무엇을 보여주고 싶은지</b>에 따라 완전히 달라집니다. 너무 고민하지 말고, 가장 가까운 한 가지를 고르세요.",
+    example:"<i>\"이 운동 프로그램이 정말 효과가 있는가?\"</i>(실험) · <i>\"흡연과 폐암은 관련이 있는가?\"</i>(관찰) · <i>\"말기 환자는 어떤 경험을 하는가?\"</i>(기술) · <i>\"지금까지 나온 모든 연구를 종합하면?\"</i>(통합).",
+    opts:[
+      {id:'intervene', ko:'어떤 치료·중재가 효과가 있는지 직접 검정하고 싶다', en:'Test whether an intervention works',
+       eg:'예: 새로운 운동 프로그램이 통증을 줄이는가?', next:'e_random'},
+      {id:'observe',   ko:'이미 존재하는 변수들 사이의 연관·인과를 관찰하고 싶다', en:'Observe associations in the real world',
+       eg:'예: 흡연자가 폐암에 더 많이 걸리는가?', next:'o_time'},
+      {id:'describe',  ko:'어떤 집단·현상을 자세히 기술·묘사하고 싶다', en:'Describe a group or phenomenon',
+       eg:'예: 호스피스 환자의 투병 경험, 특정 질환의 유병률', next:'d_type'},
+      {id:'synthesize',ko:'이미 발표된 연구 결과를 종합하고 싶다', en:'Synthesize existing evidence',
+       eg:'예: 20편의 RCT를 모아 평균 효과 크기를 계산', next:'s_quant'},
+    ]
+  },
+
+  // EXPERIMENTAL BRANCH
+  e_random: {
+    q_ko:"참여자를 <b>무작위로 배정</b>할 수 있나요?", q_en:"Can participants be randomly assigned to groups?",
+    hint:"<b>무작위 배정</b>은 동전 던지기처럼 우연으로 누가 어느 집단에 들어갈지 정하는 것입니다. 이게 가능하면 RCT(가장 강력한 근거), 불가능하면 준실험 설계를 씁니다.",
+    example:"환자 60명 중 30명은 운동군, 30명은 대조군으로 <b>연구자가 제비뽑기 방식</b>으로 나눴다면 배정 가능. 이미 운동 중인 사람과 아닌 사람을 그대로 비교했다면 배정 불가능(준실험).",
+    unsureTitle:"잘 모르겠다면",
+    unsure:"윤리적·현실적 제약으로 무작위 배정이 <b>불가능</b>한 상황이 많습니다(예: 학교 단위 개입, 과거 자료). 이 경우 준실험이 정답입니다. 반대로 배정이 가능하다면 <b>RCT를 우선 고려</b>하세요 — 인과 추론 근거 수준이 훨씬 높습니다.",
+    opts:[
+      {id:'yes', ko:'예 — 무작위 배정 가능', en:'Yes, randomization is feasible',
+       eg:'예: 환자 60명을 동전 던지기식으로 두 집단에 나눔', next:'e_rct_struct'},
+      {id:'no',  ko:'아니오 — 기존 집단을 비교하거나 개별 사례 추적',
+       en:'No — comparing existing groups or tracking individuals',
+       eg:'예: A학교 vs B학교, 한 환자의 단일대상 추적', next:'e_quasi_or_ss'},
+    ]
+  },
+
+  e_rct_struct: {
+    q_ko:"RCT의 구조는 어떤 형태에 가깝나요?", q_en:"What kind of RCT structure fits?",
+    hint:"RCT라도 <b>누가 어떤 순서로 어떤 치료를 받는지</b>에 따라 세부 설계가 달라집니다.",
+    example:"<i>평행군</i>: 각자 한 가지 치료만 받음(가장 흔함). <i>교차</i>: 같은 사람이 여러 치료를 순서 바꿔가며 받음. <i>요인</i>: 두 가지 중재(약 × 운동)를 동시에 검정. <i>군집</i>: 개인이 아니라 병원·학교 단위로 배정.",
+    unsureTitle:"잘 모르겠다면",
+    unsure:"대부분의 임상 연구는 <b>평행군 설계</b>로 시작합니다. 같은 환자에게 여러 치료를 줄 수 있고 <b>이월 효과(carry-over)</b>가 적으면 교차 설계, 중재가 <b>둘 이상이고 상호작용</b>이 궁금하면 요인 설계, 개입이 <b>집단 단위로만 가능</b>하면 군집 RCT를 고려하세요.",
+    opts:[
+      {id:'parallel', ko:'각 참여자가 한 가지 치료만 받는다 · 평행군 RCT',
+       en:'Parallel-group RCT', eg:'예: 치료군 vs 대조군, 각자 한 번만 배정', next:'res_rct_parallel'},
+      {id:'crossover',ko:'같은 참여자가 여러 치료를 순서를 바꿔가며 받는다 · 교차 설계',
+       en:'Crossover RCT', eg:'예: A → 세척 기간 → B, 또는 B → A', next:'res_rct_crossover'},
+      {id:'factorial',ko:'두 가지 이상의 중재를 동시에 비교한다 · 요인 설계',
+       en:'Factorial trial', eg:'예: 약(예/아니오) × 운동(예/아니오) 4집단', next:'res_rct_factorial'},
+      {id:'cluster',  ko:'개인이 아니라 집단(병원·학교 등) 단위로 배정한다 · 군집 RCT',
+       en:'Cluster RCT', eg:'예: 병원 10곳 중 5곳만 교육 프로그램 시행', next:'res_rct_cluster'},
+    ]
+  },
+
+  e_quasi_or_ss: {
+    q_ko:"무작위 배정이 불가능할 때 — 접근은?", q_en:"If random assignment isn't feasible — which approach?",
+    hint:"배정이 불가능해도 설계로 원인·결과를 최대한 분리하려고 노력합니다.",
+    example:"<i>비동등 집단</i>: 이미 존재하는 두 집단을 사전·사후 비교. <i>시계열</i>: 한 집단에서 중재 전후 여러 시점 측정. <i>단일대상</i>: 한 명의 환자에서 기저선-중재-철회를 반복.",
+    unsureTitle:"잘 모르겠다면",
+    unsure:"참여자 수가 <b>많지만 배정이 불가능</b>하면 비동등 집단이나 시계열이 맞습니다. 참여자가 <b>한 명 또는 소수</b>이고 개별 반응을 정밀히 보고 싶으면 단일대상 설계가 유용합니다(재활·희귀질환에서 많이 씀).",
+    opts:[
+      {id:'noneq', ko:'두 집단(치료·대조)이 있으나 무작위로 배정되지 않았다 · 비동등 집단 설계',
+       en:'Nonequivalent groups design', eg:'예: A학교는 새 프로그램, B학교는 기존 프로그램', next:'res_quasi_noneq'},
+      {id:'ts',    ko:'한 집단에서 중재 전과 후의 여러 시점을 측정한다 · 시계열 설계',
+       en:'Time-series / interrupted time-series', eg:'예: 병원 전체의 6개월 전·후 감염률 추세', next:'res_quasi_its'},
+      {id:'single',ko:'한 명 또는 소수 참여자에서 기저선–중재를 반복 측정한다 · 단일대상 설계',
+       en:'Single-subject / N-of-1 design', eg:'예: ABA 설계, 중재 적용·철회를 반복', next:'res_single_subj'},
+    ]
+  },
+
+  // OBSERVATIONAL BRANCH
+  o_time: {
+    q_ko:"관찰 시점은 어떤 구조인가요?", q_en:"What is the temporal structure of observation?",
+    hint:"<b>관찰 연구</b>는 연구자가 개입하지 않고 자연스럽게 발생하는 현상을 봅니다. 시간 흐름을 어떻게 다루느냐에 따라 설계가 나뉩니다.",
+    example:"<i>종단</i>: 시간의 흐름을 따라가며 추적(코호트). <i>회고적</i>: 이미 결과가 나온 사람부터 과거를 거슬러 봄(환자-대조). <i>횡단</i>: 한 시점에서 스냅샷처럼 측정.",
+    unsureTitle:"잘 모르겠다면",
+    unsure:"<b>결과(병 발생 등)가 아직 나오지 않았고</b> 노출된 사람들을 따라가며 보고 싶으면 코호트. <b>이미 병에 걸린 사람</b>과 걸리지 않은 사람을 비교하고 싶으면 환자-대조. <b>한 시점의 유병률·연관성</b>만 보고 싶으면 횡단.",
+    opts:[
+      {id:'long-fwd', ko:'노출된 집단을 시간 따라 추적하여 결과 발생을 본다 · 전향 관찰',
+       en:'Follow exposed vs unexposed forward in time',
+       eg:'예: 흡연자와 비흡연자를 10년간 추적하여 폐암 발생 비교', next:'o_cohort_dir'},
+      {id:'outcome-first', ko:'이미 결과가 나온 사람과 나오지 않은 사람을 비교한다 · 환자-대조',
+       en:'Start from outcome and look back at exposure',
+       eg:'예: 폐암 환자 100명과 건강 대조 100명의 과거 흡연력 비교', next:'res_casecontrol'},
+      {id:'snapshot', ko:'한 시점에 노출과 결과를 동시에 측정한다 · 횡단',
+       en:'Measure exposure and outcome at a single time point',
+       eg:'예: 설문으로 흡연 여부와 호흡곤란 유병률을 동시에 조사', next:'res_crosssect'},
+    ]
+  },
+
+  o_cohort_dir: {
+    q_ko:"코호트의 <b>자료 수집 시점</b>은?", q_en:"When is the cohort data collected?",
+    hint:"'전향적'과 '후향적'의 차이는 <b>연구자가 언제 자료 수집을 시작했느냐</b>입니다.",
+    example:"<i>전향적</i>: \"지금부터 이 사람들을 10년간 추적하자\" — 자료를 직접 설계·수집. <i>후향적</i>: \"10년 전 진료 기록을 이용해 그 이후 누가 어떻게 되었는지 보자\" — 이미 수집된 자료 활용.",
+    unsureTitle:"잘 모르겠다면",
+    unsure:"연구자가 측정 도구와 시점을 직접 정할 수 있다면 <b>전향적</b>이 자료 품질이 높습니다. 하지만 시간과 비용이 많이 듭니다. 이미 쌓인 의무기록·레지스트리로 빠르게 답을 얻고 싶다면 <b>후향적</b>.",
+    opts:[
+      {id:'prosp',  ko:'지금부터 앞으로 자료를 수집하며 추적한다 · 전향적 코호트',
+       en:'Prospective cohort', eg:'예: 신규 환자 500명을 지금부터 5년간 추적', next:'res_cohort_prosp'},
+      {id:'retro',  ko:'이미 축적된 과거 기록을 이용해 결과를 본다 · 후향적 코호트',
+       en:'Retrospective cohort', eg:'예: 2010–2020 의무기록 DB에서 노출·결과 추출', next:'res_cohort_retro'},
+    ]
+  },
+
+  // DESCRIPTIVE BRANCH
+  d_type: {
+    q_ko:"어떤 방식으로 기술·묘사하고 싶으세요?", q_en:"What kind of description?",
+    hint:"기술적 연구는 <b>\"X는 어떤가?\"</b>에 답합니다. 질적(의미·경험)이냐 양적(수치·분포)이냐에 따라 나뉩니다.",
+    example:"<i>질적</i>: \"만성통증을 살아간다는 것은 어떤 경험인가?\"(현상학) — 인터뷰·관찰로 의미를 이해. <i>양적 기술</i>: \"이 지역 당뇨 유병률은 몇 %인가?\" — 수치로 기술.",
+    opts:[
+      {id:'qual', ko:'경험·의미·문화를 깊이 이해하고 싶다 · 질적 연구',
+       en:'Qualitative — understand experience and meaning',
+       eg:'예: 인터뷰·관찰을 통해 환자의 삶을 이해', next:'d_qual_tradition'},
+      {id:'quant', ko:'수치·비율·분포로 집단을 기술하고 싶다 · 기술적 양적 연구',
+       en:'Quantitative description',
+       eg:'예: 유병률, 서비스 이용률, 특성 빈도', next:'d_quant_type'},
+      {id:'case',  ko:'특정 한 사례·소수 사례를 상세히 보고하고 싶다 · 사례 보고/사례 시리즈',
+       en:'Case report / case series',
+       eg:'예: 희귀 증례의 임상 경과와 치료 반응', next:'res_case_report'},
+    ]
+  },
+
+  d_qual_tradition: {
+    q_ko:"질적 연구 전통 중 어느 쪽에 가장 가깝나요?", q_en:"Which qualitative tradition fits your question?",
+    hint:"질적 연구는 크게 네 가지 전통으로 나뉘며, <b>연구 질문의 성격</b>이 어느 쪽에 맞는지가 핵심입니다.",
+    example:"<i>현상학</i>: \"X를 경험한다는 것은 어떤 것인가?\" <i>문화기술지</i>: \"이 집단의 일상과 문화는 어떤가?\" <i>근거이론</i>: \"이 과정을 설명하는 이론은 무엇인가?\" <i>내러티브</i>: \"이 사람의 이야기는 어떻게 전개되는가?\"",
+    unsureTitle:"잘 모르겠다면",
+    unsure:"\"<b>경험한다는 것</b>\"이 키워드면 현상학, \"<b>문화·일상</b>\"이면 문화기술지, \"<b>과정·이론 생성</b>\"이면 근거이론, \"<b>이야기·삶의 궤적</b>\"이면 내러티브가 기본입니다.",
+    opts:[
+      {id:'pheno', ko:'특정 경험의 본질과 의미를 탐색 · 현상학',
+       en:'Phenomenology', eg:'예: "뇌졸중 후 신체를 다시 알아간다는 경험"', next:'res_pheno'},
+      {id:'ethno', ko:'특정 집단·문화 속 일상과 상호작용을 기술 · 문화기술지',
+       en:'Ethnography', eg:'예: 중환자실 간호팀의 인수인계 문화', next:'res_ethno'},
+      {id:'gt',    ko:'자료에서 새로운 이론을 귀납적으로 생성 · 근거이론',
+       en:'Grounded theory', eg:'예: 만성통증 환자의 자기관리 과정 모형', next:'res_gt'},
+      {id:'narr',  ko:'개인의 이야기·삶의 궤적을 분석 · 내러티브 연구',
+       en:'Narrative inquiry', eg:'예: 암 생존자의 투병·회복 서사', next:'res_narrative'},
+    ]
+  },
+
+  d_quant_type: {
+    q_ko:"양적 기술 연구의 자료 수집 방식은?", q_en:"How will you collect descriptive quantitative data?",
+    hint:"기술 목적이 뚜렷하다면 설문(서베이)이 가장 흔합니다. 발달·변화를 보고 싶다면 발달 연구 계열.",
+    example:"<i>설문</i>: \"우리 지역 청소년의 수면 실태는?\" <i>발달</i>: 연령·경과에 따른 변화를 체계적으로 관찰.",
+    opts:[
+      {id:'survey', ko:'질문지·인터뷰로 집단의 특성·태도를 조사한다 · 설문/서베이 연구',
+       en:'Survey / questionnaire study', eg:'예: 교사 1,000명 대상 번아웃 실태 조사', next:'res_survey'},
+      {id:'devel',  ko:'연령·시간에 따른 변화를 체계적으로 관찰한다 · 발달 연구',
+       en:'Developmental research', eg:'예: 아동의 보행 발달, 노화에 따른 근력 변화', next:'d_devel_struct'},
+    ]
+  },
+
+  d_devel_struct: {
+    q_ko:"발달 연구의 구체적 구조는?", q_en:"Which developmental design fits?",
+    hint:"<b>발달</b>을 본다는 것은 시간·연령에 따른 변화가 핵심입니다. 같은 사람을 따라갈지, 여러 연령을 한 번에 비교할지가 갈림길.",
+    example:"<i>종단</i>: 5세 아동 50명을 10세까지 매년 측정. <i>횡단</i>: 5세·8세·11세 아동을 한 번에 측정하여 비교. <i>코호트-시퀀셜</i>: 두 방식을 결합하여 시간·코호트 효과를 분리.",
+    unsureTitle:"잘 모르겠다면",
+    unsure:"<b>같은 사람의 실제 변화</b>가 중요하면 종단(시간·비용은 큼), <b>연령대별 차이</b>만 빠르게 보려면 횡단이 경제적입니다.",
+    opts:[
+      {id:'long',  ko:'같은 사람을 여러 시점 추적 · 종단 발달',
+       en:'Longitudinal developmental', eg:'예: 5세 → 10세까지 매년 같은 아이 측정', next:'res_dev_long'},
+      {id:'xsect', ko:'여러 연령 집단을 한 시점에 비교 · 횡단 발달',
+       en:'Cross-sectional developmental', eg:'예: 5·8·11세 집단을 한 번에 측정', next:'res_dev_xsect'},
+      {id:'seq',   ko:'종단·횡단을 결합 · 코호트-시퀀셜',
+       en:'Cohort-sequential', eg:'예: 여러 출생 코호트를 각각 몇 년씩 추적', next:'res_dev_seq'},
+    ]
+  },
+
+  // SYNTHESIS BRANCH
+  s_quant: {
+    q_ko:"기존 연구를 어떻게 종합하려고 하세요?", q_en:"How will you synthesize prior evidence?",
+    hint:"이미 나온 연구를 모아 분석합니다. 체계적 고찰은 <b>엄밀한 검색·선별·평가</b>, 메타분석은 <b>수치의 통계적 통합</b>입니다.",
+    example:"<i>체계적 고찰</i>: PRISMA 흐름도에 따라 50편을 선별·요약. <i>메타분석</i>: 그중 20편의 효과 크기를 포레스트 플롯으로 통합.",
+    unsureTitle:"잘 모르겠다면",
+    unsure:"대부분의 경우 <b>체계적 고찰이 먼저</b>이고, 포함된 연구들이 <b>수치적으로 통합 가능</b>할 때 메타분석을 합니다. 이질성이 크면 메타분석 대신 서술적 종합에 머무르기도 합니다.",
+    opts:[
+      {id:'sr', ko:'표준 절차에 따라 관련 연구를 빠짐없이 모아 평가·요약한다 · 체계적 고찰',
+       en:'Systematic review', eg:'예: PRISMA 가이드라인 따라 50편 선별·요약', next:'res_sr'},
+      {id:'ma', ko:'여러 연구의 효과 크기를 통계적으로 통합하여 평균 효과를 추정한다 · 메타분석',
+       en:'Meta-analysis', eg:'예: 20편 RCT의 표준화 평균 차이 통합', next:'res_ma'},
+    ]
+  },
+
+  // ============================================================
+  // TERMINAL RESULT NODES
+  // ============================================================
+  res_rct_parallel: { result: {
+    group:'Experimental · 실험 설계',
+    ko:'평행군 무작위 대조시험 (Parallel-group RCT)', en:'Parallel-group randomized controlled trial',
+    use:'참여자를 무작위로 배정하여 <b>각자 한 가지 치료</b>만 받도록 하는 가장 흔한 RCT 구조. 인과 추론에서 가장 강한 근거를 제공합니다.',
+    study:'예시 연구 — "만성 허리통증 환자 120명을 <b>무작위로 운동치료군(60) vs 대기 대조군(60)</b>에 배정, 12주 후 VAS 통증 점수를 비교." 한 명당 한 치료, 동시 진행 → <b>평행군 RCT</b>.',
+    enNote:'Participants randomly assigned to one of two or more independent arms; arms run in parallel.',
+    ref:'Chapter 10 — Experimental Designs'
+  }},
+  res_rct_crossover: { result: {
+    group:'Experimental · 실험 설계',
+    ko:'교차 설계 RCT (Crossover RCT)', en:'Crossover RCT',
+    use:'같은 참여자가 <b>여러 치료를 순서를 바꿔가며</b> 받습니다. 개인 내 비교로 통계적 효율이 높지만, <b>세척 기간(washout)</b>과 <b>이월 효과(carry-over)</b> 관리가 핵심.',
+    study:'예시 연구 — "편두통 환자 30명을 무작위로 두 순서(약 A→B, B→A)에 배정, 각 치료 4주 + 세척 2주 후 통증 일수를 비교." 같은 사람 여러 치료 → <b>교차 RCT</b>.',
+    enNote:'Each participant receives multiple interventions in randomized order; requires washout.',
+    ref:'Chapter 10 — Crossover Designs'
+  }},
+  res_rct_factorial: { result: {
+    group:'Experimental · 실험 설계',
+    ko:'요인 설계 (Factorial trial)', en:'Factorial design',
+    use:'<b>두 가지 이상의 중재</b>를 동시에 검정하고 그들의 <b>상호작용</b>까지 볼 수 있습니다. 2×2 설계가 가장 흔합니다.',
+    study:'예시 연구 — "고혈압 환자 200명을 <b>약물(유/무) × 운동(유/무)</b>의 4조합에 무작위 배정, 각 요인과 상호작용을 분석." 두 중재 동시 검정 → <b>요인 설계</b>.',
+    enNote:'Tests two or more interventions simultaneously and their interaction.',
+    ref:'Chapter 10 — Factorial Designs'
+  }},
+  res_rct_cluster: { result: {
+    group:'Experimental · 실험 설계',
+    ko:'군집 RCT (Cluster RCT)', en:'Cluster randomized trial',
+    use:'개인이 아니라 <b>병원·학교·팀 등 집단 단위</b>로 배정합니다. 같은 군집 내 유사성(ICC)을 분석에서 보정해야 합니다.',
+    study:'예시 연구 — "낙상 예방 교육 효과를 보기 위해 <b>요양원 20곳 중 10곳</b>을 무작위로 교육 시행, 나머지는 통상 관리. 6개월 낙상 발생률을 군집 수준에서 비교." 집단 단위 배정 → <b>군집 RCT</b>.',
+    enNote:'Randomizes clusters rather than individuals; analysis must adjust for intracluster correlation.',
+    ref:'Chapter 10 — Cluster Designs'
+  }},
+  res_quasi_noneq: { result: {
+    group:'Quasi-experimental · 준실험 설계',
+    ko:'비동등 집단 전·후 비교 설계', en:'Nonequivalent groups design',
+    use:'무작위 배정 없이 <b>이미 존재하는 두 집단</b>을 사전·사후 비교. 기저 차이에 대한 <b>공변량 보정</b> 또는 성향점수 매칭이 권장됩니다.',
+    study:'예시 연구 — "새 재활 프로그램을 도입한 A병원과 기존 프로그램을 유지한 B병원에서 <b>입원 시·퇴원 시 운동 점수</b>를 비교." 두 병원 환자가 배정되지 않음 → <b>비동등 집단</b>.',
+    enNote:'Compares pre-post outcomes between two non-randomly formed groups.',
+    ref:'Chapter 11 — Quasi-Experimental Designs'
+  }},
+  res_quasi_its: { result: {
+    group:'Quasi-experimental · 준실험 설계',
+    ko:'단절 시계열 설계 (Interrupted time series)', en:'Interrupted time-series design',
+    use:'한 집단에서 <b>중재 전·후의 여러 시점</b>을 측정하여 <b>수준(level)과 기울기(slope)의 변화</b>를 평가합니다. 개별 배정 없이도 정책·제도 효과를 볼 때 유용.',
+    study:'예시 연구 — "한 대학병원이 <b>새 감염 예방 정책</b> 도입 6개월 전·후 각 24주간 <b>주별 병원감염률</b>을 측정, 수준·기울기 변화 검정." 단일 집단 반복 측정 → <b>단절 시계열</b>.',
+    enNote:'Repeated measurements before and after an intervention in a single group.',
+    ref:'Chapter 11 — Time-Series Designs'
+  }},
+  res_single_subj: { result: {
+    group:'Single-subject · 단일대상 설계',
+    ko:'단일대상 설계 (Single-subject / N-of-1)', en:'Single-subject design',
+    use:'한 명(또는 소수) 참여자에서 <b>기저선(A) ↔ 중재(B) ↔ 철회·재중재</b>를 반복 측정. ABA·ABAB·다중기저선 등 세부 구조가 있습니다.',
+    study:'예시 연구 — "만성 요통 환자 1명에서 3주 기저선(A) → 4주 새 운동치료(B) → 3주 철회(A) → 4주 재중재(B)로 <b>일별 통증 점수</b>를 추적 (ABAB 설계)." 개별 대상 반복 측정 → <b>단일대상 설계</b>.',
+    enNote:'Uses repeated measurement within one or few subjects across baseline and intervention phases.',
+    ref:'Chapter 12 — Single-Subject Designs'
+  }},
+  res_cohort_prosp: { result: {
+    group:'Observational · 관찰 연구',
+    ko:'전향적 코호트 연구', en:'Prospective cohort study',
+    use:'노출과 비노출 집단을 <b>지금부터 미래로 추적</b>하여 결과 발생을 비교합니다. <b>발생률·상대위험도(RR)</b> 추정에 적합.',
+    study:'예시 연구 — "건강한 성인 1,500명을 등록해 <b>흡연·비흡연</b>으로 나눈 뒤 10년간 추적, 폐암 발생률을 비교." 미래 추적 → <b>전향적 코호트</b>.',
+    enNote:'Follows exposed and unexposed groups forward in time to measure incidence.',
+    ref:'Chapter 14 — Cohort Studies'
+  }},
+  res_cohort_retro: { result: {
+    group:'Observational · 관찰 연구',
+    ko:'후향적 코호트 연구', en:'Retrospective cohort study',
+    use:'이미 축적된 <b>과거 기록(의무기록·레지스트리)</b>에서 노출과 결과 자료를 추출해 분석. 비용·시간 효율이 좋으나 <b>자료 품질·결측 보정</b>이 중요합니다.',
+    study:'예시 연구 — "2010–2020년 국민건강보험공단 DB에서 <b>직업성 분진 노출 여부</b>로 두 집단을 정의하고 이후 10년간 만성 폐쇄성 폐질환 발생률을 비교." 과거 자료 활용 → <b>후향적 코호트</b>.',
+    enNote:'Uses historical records to define exposed/unexposed cohorts and track subsequent outcomes.',
+    ref:'Chapter 14 — Cohort Studies'
+  }},
+  res_casecontrol: { result: {
+    group:'Observational · 관찰 연구',
+    ko:'환자-대조군 연구', en:'Case-control study',
+    use:'<b>이미 병에 걸린 사람(환자)</b>과 걸리지 않은 사람(대조)을 모집해 <b>과거 노출</b>을 비교합니다. 희귀 질환·잠복기가 긴 질환에 효율적이나 <b>회상 바이어스</b>에 취약.',
+    study:'예시 연구 — "췌장암 환자 150명과 연령·성 매칭된 건강 대조 300명에서 <b>과거 식습관·흡연·음주</b>를 설문 비교, 오즈비(OR) 산출." 결과에서 노출 거슬러 봄 → <b>환자-대조 연구</b>.',
+    enNote:'Compares past exposures between cases and controls; reports odds ratios.',
+    ref:'Chapter 14 — Case-Control Studies'
+  }},
+  res_crosssect: { result: {
+    group:'Observational · 관찰 연구',
+    ko:'횡단 연구', en:'Cross-sectional study',
+    use:'<b>한 시점</b>에 노출과 결과를 동시에 측정합니다. <b>유병률</b> 추정과 연관성 탐색에 적합하나, <b>시간 선후</b>를 알 수 없어 인과 추론은 제한적입니다.',
+    study:'예시 연구 — "지역 성인 2,000명을 한 번에 조사하여 <b>고혈압 유병률</b>과 <b>운동습관·흡연 상태</b>의 관련성을 분석." 한 시점 동시 측정 → <b>횡단 연구</b>.',
+    enNote:'Measures exposure and outcome simultaneously at one time point.',
+    ref:'Chapter 14 — Cross-Sectional Studies'
+  }},
+
+  res_pheno: { result: {
+    group:'Qualitative · 질적 연구',
+    ko:'현상학적 연구', en:'Phenomenological research',
+    use:'특정 경험의 <b>살아 있는 의미와 본질 구조</b>를 탐구합니다. 심층 인터뷰와 주제 분석이 주요 도구.',
+    study:'예시 연구 — "편마비 환자 12명과 2회씩 심층 인터뷰를 실시하여, <b>뇌졸중 후 자신의 몸을 새롭게 알아간다</b>는 경험의 핵심 주제 5가지를 도출." 경험의 본질 탐구 → <b>현상학</b>.',
+    enNote:'Explores the lived essence of a specific experience through in-depth interviews.',
+    ref:'Chapter 15 — Qualitative Research'
+  }},
+  res_ethno: { result: {
+    group:'Qualitative · 질적 연구',
+    ko:'문화기술지 연구', en:'Ethnographic research',
+    use:'특정 집단·환경에 <b>장기간 몰입</b>하며 일상과 문화적 의미를 기술합니다. 참여 관찰·현지 인터뷰가 핵심.',
+    study:'예시 연구 — "중환자실에서 6개월간 참여 관찰과 간호사 20명 인터뷰를 통해 <b>인수인계 시 이루어지는 비공식 의사소통 문화</b>를 기술." 현장 몰입 → <b>문화기술지</b>.',
+    enNote:'Describes group culture and everyday practices through sustained field engagement.',
+    ref:'Chapter 15 — Qualitative Traditions'
+  }},
+  res_gt: { result: {
+    group:'Qualitative · 질적 연구',
+    ko:'근거이론 연구', en:'Grounded theory',
+    use:'자료에서 출발해 <b>새로운 이론·과정 모형</b>을 귀납적으로 구축합니다. 지속적 비교·이론적 표집이 특징.',
+    study:'예시 연구 — "만성 통증 환자 25명을 3단계에 걸쳐 인터뷰하고 지속적 비교 분석으로 <b>\'협상하며 살아가기\'라는 자기관리 과정 모형</b>을 도출." 이론 생성 → <b>근거이론</b>.',
+    enNote:'Builds theory inductively from data via constant comparison.',
+    ref:'Chapter 15 — Qualitative Traditions'
+  }},
+  res_narrative: { result: {
+    group:'Qualitative · 질적 연구',
+    ko:'내러티브 연구', en:'Narrative inquiry',
+    use:'개인의 <b>이야기·삶의 궤적</b>을 단위로 분석하여 경험의 의미 구조를 이해합니다.',
+    study:'예시 연구 — "유방암 생존자 8명의 진단–치료–회복 과정을 생애사 인터뷰로 수집하고, 각 인물의 서사 궤적을 분석하여 <b>정체성 재구성 과정</b>을 조명." 이야기 분석 → <b>내러티브</b>.',
+    enNote:'Analyzes individual stories and life trajectories for meaning.',
+    ref:'Chapter 15 — Qualitative Traditions'
+  }},
+  res_case_report: { result: {
+    group:'Descriptive · 기술 연구',
+    ko:'사례 보고 · 사례 시리즈', en:'Case report / case series',
+    use:'한 명 또는 소수의 사례에서 <b>임상 경과·치료 반응·특이 소견</b>을 상세히 기술합니다. 가설 생성에 유용하나 인과 추론은 제한적.',
+    study:'예시 연구 — "희귀 신경근육 질환을 가진 환자 4명의 <b>진단 과정·치료 반응·6개월 경과</b>를 시간순으로 기술한 사례 시리즈." 소수 사례 기술 → <b>사례 시리즈</b>.',
+    enNote:'Detailed description of one or a few clinical cases.',
+    ref:'Chapter 16 — Case Reports'
+  }},
+  res_survey: { result: {
+    group:'Descriptive · 기술 연구',
+    ko:'설문(서베이) 연구', en:'Survey research',
+    use:'질문지·인터뷰로 특정 집단의 <b>특성·태도·행동</b>을 기술합니다. 타당한 설문 도구와 충분한 응답률이 핵심.',
+    study:'예시 연구 — "전국 간호사 1,200명을 대상으로 <b>Maslach Burnout Inventory</b> 온라인 설문을 실시하고, 직급·근무부서별 번아웃 수준을 기술." 질문지로 특성 파악 → <b>서베이 연구</b>.',
+    enNote:'Uses questionnaires or structured interviews to describe group characteristics.',
+    ref:'Chapter 13 — Survey Research'
+  }},
+  res_dev_long: { result: {
+    group:'Developmental · 발달 연구',
+    ko:'종단 발달 연구', en:'Longitudinal developmental',
+    use:'<b>같은 참여자</b>를 여러 시점 추적하여 실제 변화와 개인차를 측정합니다. 장기 비용·탈락이 단점.',
+    study:'예시 연구 — "3세 아동 60명을 모집해 <b>매년 한 번씩 7세까지</b> 대근육 운동 발달을 평가, 개인별 궤적을 분석." 같은 대상 추적 → <b>종단 발달</b>.',
+    enNote:'Tracks the same individuals across multiple time points.',
+    ref:'Chapter 16 — Developmental Research'
+  }},
+  res_dev_xsect: { result: {
+    group:'Developmental · 발달 연구',
+    ko:'횡단 발달 연구', en:'Cross-sectional developmental',
+    use:'<b>서로 다른 연령 집단</b>을 한 시점에 비교합니다. 빠르고 저렴하나 <b>코호트 효과</b>와 발달 변화가 혼동될 수 있습니다.',
+    study:'예시 연구 — "3세·5세·7세 아동 각 30명을 한 번에 측정하여 연령별 보행 속도·균형 능력을 비교." 여러 연령 한 번에 → <b>횡단 발달</b>.',
+    enNote:'Compares different age groups at a single time point.',
+    ref:'Chapter 16 — Developmental Research'
+  }},
+  res_dev_seq: { result: {
+    group:'Developmental · 발달 연구',
+    ko:'코호트-시퀀셜 설계', en:'Cohort-sequential design',
+    use:'종단·횡단을 결합해 <b>시간 효과·코호트 효과·연령 효과</b>를 부분적으로 분리합니다. 분석이 복잡하지만 강력.',
+    study:'예시 연구 — "2010년생·2013년생·2016년생 각 100명씩 3개 코호트를 구성하여 각 코호트를 4년간 추적, 세 코호트의 궤적을 비교해 연령과 시대 효과를 분리." 결합 설계 → <b>코호트-시퀀셜</b>.',
+    enNote:'Combines longitudinal and cross-sectional to separate age, period, and cohort effects.',
+    ref:'Chapter 16 — Developmental Research'
+  }},
+  res_sr: { result: {
+    group:'Synthesis · 통합 연구',
+    ko:'체계적 고찰', en:'Systematic review',
+    use:'사전에 공개한 프로토콜(PRISMA)에 따라 관련 연구를 <b>빠짐없이 검색·선별·평가·요약</b>합니다. 편향 위험 평가(RoB)와 투명한 보고가 필수.',
+    study:'예시 연구 — "뇌졸중 환자의 <b>과제 지향 훈련 효과</b>에 관한 RCT를 5개 데이터베이스에서 검색, 32편을 포함하고 PRISMA 흐름도와 RoB 2.0을 적용해 질적 종합." 체계적 검색·종합 → <b>체계적 고찰</b>.',
+    enNote:'Comprehensive, protocol-driven synthesis of existing studies with formal appraisal.',
+    ref:'Chapter 16 — Systematic Reviews'
+  }},
+  res_ma: { result: {
+    group:'Synthesis · 통합 연구',
+    ko:'메타분석', en:'Meta-analysis',
+    use:'체계적 고찰 안에서 <b>여러 연구의 효과 크기를 통계적으로 통합</b>하여 하나의 효과 추정치와 이질성(I²)을 보고합니다. 포레스트 플롯·출판 편향 검토를 포함.',
+    study:'예시 연구 — "수술 전 예방적 항생제 투여에 관한 20편 RCT의 <b>상대위험도(RR)를 통합</b>하여 RR = 0.62 (95% CI 0.50–0.76), I² = 35%를 보고하고 Funnel plot으로 출판 편향을 확인." 수치 통합 → <b>메타분석</b>.',
+    enNote:'Statistically combines effect sizes across studies; reports pooled estimate and heterogeneity.',
+    ref:'Chapter 16 — Meta-Analysis'
+  }},
+};
+
+const treeOverview = [
+  { group:'① 실험 (Intervention)', items:[
+    ['res_rct_parallel','평행군 RCT','Parallel-group RCT'],
+    ['res_rct_crossover','교차 RCT','Crossover RCT'],
+    ['res_rct_factorial','요인 설계','Factorial'],
+    ['res_rct_cluster','군집 RCT','Cluster RCT'],
+    ['res_single_subj','단일대상','Single-subject'],
+    ['res_quasi_noneq','비동등 집단','Nonequivalent groups'],
+    ['res_quasi_its','단절 시계열','Interrupted time-series'],
+  ]},
+  { group:'② 관찰 (Observational)', items:[
+    ['res_cohort_prosp','전향적 코호트','Prospective cohort'],
+    ['res_cohort_retro','후향적 코호트','Retrospective cohort'],
+    ['res_casecontrol','환자-대조군','Case-control'],
+    ['res_crosssect','횡단','Cross-sectional'],
+  ]},
+  { group:'③ 기술 (Descriptive)', items:[
+    ['res_pheno','현상학','Phenomenology'],
+    ['res_ethno','문화기술지','Ethnography'],
+    ['res_gt','근거이론','Grounded theory'],
+    ['res_narrative','내러티브','Narrative'],
+    ['res_case_report','사례 보고/시리즈','Case report'],
+    ['res_survey','서베이','Survey'],
+    ['res_dev_long','종단 발달','Longitudinal'],
+    ['res_dev_xsect','횡단 발달','Cross-sectional dev'],
+    ['res_dev_seq','코호트-시퀀셜','Cohort-sequential'],
+  ]},
+  { group:'④ 통합 (Synthesis)', items:[
+    ['res_sr','체계적 고찰','Systematic review'],
+    ['res_ma','메타분석','Meta-analysis'],
+  ]},
+];
+
+let history=[], currentNode='start';
+const ESTIMATED_DEPTH=4;
+const $=s=>document.querySelector(s);
+const view=$('#view'), pathEl=$('#path'), progEl=$('#prog'), treeEl=$('#tree');
+
+function renderTreeOverview(){
+  treeEl.innerHTML='';
+  treeOverview.forEach(sec=>{
+    const g=document.createElement('li'); g.className='group'; g.textContent=sec.group; treeEl.appendChild(g);
+    const ul=document.createElement('ul');
+    sec.items.forEach(([id,ko,en])=>{
+      const li=document.createElement('li'); li.className='leaf'; li.dataset.leaf=id;
+      li.innerHTML=`<span style="color:var(--ink)">${ko}</span> <span style="color:var(--ink-50);font-style:italic">· ${en}</span>`;
+      ul.appendChild(li);
+    });
+    treeEl.appendChild(ul);
+  });
+}
+function updateTreeHighlight(id){
+  treeEl.querySelectorAll('li.leaf').forEach(li=>{
+    li.classList.remove('active');
+    if(id && li.dataset.leaf===id){ li.classList.add('active'); li.scrollIntoView({block:'nearest',behavior:'smooth'}); }
+  });
+}
+function renderPath(){
+  pathEl.innerHTML='';
+  history.forEach((h,i)=>{
+    const c=document.createElement('span'); c.className='chip';
+    c.innerHTML=`<span class="num">${i+1}</span>${h.chipLabel}${i<history.length-1?'<span class="arrow">›</span>':''}`;
+    pathEl.appendChild(c);
+  });
+}
+function renderQuestion(id){
+  const n=nodes[id]; if(!n) return;
+  if(n.result){ renderResult(n.result,id); updateTreeHighlight(id); return; }
+  updateTreeHighlight(null);
+  progEl.style.width=Math.min(100,(history.length/ESTIMATED_DEPTH)*100)+'%';
+  view.innerHTML=`
+    <div class="card">
+      <div class="q-num">Question ${history.length+1}</div>
+      <div class="q-ko">${n.q_ko}</div>
+      <div class="q-en">${n.q_en}</div>
+      ${n.hint?`<div class="hint">${n.hint}</div>`:''}
+      ${n.example?`<div class="example"><span class="ic">💡</span><b>예시</b> — ${n.example}</div>`:''}
+      ${n.unsure?`<details class="unsure"><summary>${n.unsureTitle||'잘 모르겠다면'}</summary><div class="unsure-body">${n.unsure}</div></details>`:''}
+      <div class="options"></div>
+    </div>`;
+  const o=view.querySelector('.options');
+  n.opts.forEach((opt,i)=>{
+    const b=document.createElement('button'); b.className='opt'; b.type='button';
+    b.innerHTML=`<span class="idx">${String.fromCharCode(65+i)}</span>
+      <span class="lbl">
+        <span class="ko">${opt.ko}</span>
+        <span class="en">${opt.en}</span>
+        ${opt.eg?`<span class="eg">${opt.eg}</span>`:''}
+      </span>
+      <span class="go">→</span>`;
+    b.addEventListener('click',()=>{
+      const chipLabel=opt.ko.split(/[·—]/)[0].trim();
+      history.push({nodeId:id,optId:opt.id,chipLabel});
+      currentNode=opt.next; renderPath(); renderQuestion(currentNode);
+    });
+    o.appendChild(b);
+  });
+}
+function renderResult(r,id){
+  progEl.style.width='100%';
+  view.innerHTML=`
+    <div class="result-wrap">
+      <div class="result">
+        <div class="result-head">
+          <div class="label">권장 설계 · Recommended design</div>
+          <div class="name-ko">${r.ko}</div>
+          <div class="name-en">${r.en}</div>
+        </div>
+        <div class="result-body">
+          <h4>언제 사용 When to use</h4>
+          <p>${r.use}</p>
+          ${r.study?`<div class="study"><b>💡 예시 연구</b> — ${r.study}</div>`:''}
+          <p class="en-note">${r.enNote}</p>
+          <div class="ref">참고 · ${r.ref} · <b>Portney &amp; Watkins (3e)</b></div>
+        </div>
+      </div>
+    </div>`;
+}
+$('#back').addEventListener('click',()=>{
+  if(!history.length) return;
+  const last=history.pop(); currentNode=last.nodeId;
+  renderPath(); renderQuestion(currentNode);
+});
+$('#reset').addEventListener('click',()=>{
+  history=[]; currentNode='start'; renderPath(); renderQuestion(currentNode);
+});
+const drawer=$('#drawer'), drawerOverlay=$('#drawerOverlay');
+function openDrawer(){ drawer.classList.add('open'); drawerOverlay.classList.add('open'); }
+function closeDrawer(){ drawer.classList.remove('open'); drawerOverlay.classList.remove('open'); }
+$('#openGlossary').addEventListener('click',openDrawer);
+$('#closeGlossary').addEventListener('click',closeDrawer);
+drawerOverlay.addEventListener('click',closeDrawer);
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeDrawer(); });
+
+renderTreeOverview(); renderQuestion(currentNode);
+</script>
+</body>
+</html>

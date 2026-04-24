@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>표본 추출(표집) 방법 선택 · 초보자용 가이드</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:#18202C; --ink-70:#18202Cb3; --ink-50:#18202C80; --ink-20:#18202C33; --ink-10:#18202C1a; --ink-05:#18202C0d;
+    --paper:#F2ECE8; --paper-warm:#EADDD6; --card:#FCF7F5;
+    --accent:#8A3A4A; --accent-dark:#6B2A38; --accent-soft:#8A3A4A1a; --accent-mid:#8A3A4A33;
+    --tip:#5B5D3A; --tip-soft:#5B5D3A14; --rule:#18202C26;
+    --shadow-sm:0 1px 2px #18202C14, 0 0 0 0.5px #18202C1a;
+    --shadow-md:0 6px 24px -8px #18202C2e, 0 2px 6px -2px #18202C1a, 0 0 0 0.5px #18202C1f;
+    --shadow-lg:0 24px 60px -20px #18202C4a, 0 8px 20px -6px #18202C26;
+    --serif:'Fraunces',ui-serif,Georgia,serif; --sans:'IBM Plex Sans KR',ui-sans-serif,system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+  }
+  *{box-sizing:border-box} html,body{margin:0;padding:0}
+  body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(1200px 800px at 85% -10%,#8A3A4A0d,transparent 60%),radial-gradient(1000px 600px at -10% 110%,#18202C0a,transparent 55%);background-attachment:fixed}
+  body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.09  0 0 0 0 0.12  0 0 0 0 0.17  0 0 0 0.05 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");opacity:.5;pointer-events:none;mix-blend-mode:multiply;z-index:0}
+  .wrap{position:relative;z-index:1;max-width:1280px;margin:0 auto;padding:44px 40px 80px}
+  @media(max-width:860px){.wrap{padding:24px 18px 48px}}
+  header.masthead{margin-bottom:28px;padding-bottom:24px;border-bottom:1px solid var(--rule)}
+  .top-row{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap}
+  .kicker{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-70)}
+  .kicker .dot{width:6px;height:6px;background:var(--accent);border-radius:50%}
+  h1.title{font-family:var(--serif);font-weight:500;font-style:italic;font-size:clamp(30px,4vw,52px);line-height:1.02;letter-spacing:-0.01em;margin:10px 0 6px;color:var(--ink)}
+  .title em{font-style:normal;font-weight:700}
+  .badge-beginner{display:inline-block;margin-left:10px;vertical-align:middle;background:var(--accent);color:#FCF0EC;font-family:var(--mono);font-size:10px;letter-spacing:.16em;font-style:normal;padding:5px 10px;border-radius:2px;transform:translateY(-6px)}
+  .subtitle{font-family:var(--serif);font-weight:400;font-size:clamp(15px,1.3vw,18px);color:var(--ink-70);max-width:60ch}
+  .glossary-btn{font:inherit;font-family:var(--mono);font-size:11px;letter-spacing:.08em;background:var(--card);color:var(--ink);border:1px solid var(--ink-20);border-radius:2px;padding:8px 14px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;transition:all .15s ease}
+  .glossary-btn:hover{background:var(--accent);color:#FCF0EC;border-color:var(--accent)}
+  .intro{margin-top:18px;background:var(--card);border:1px solid var(--ink-10);border-radius:4px;padding:18px 22px;box-shadow:var(--shadow-sm);display:flex;gap:14px;align-items:flex-start}
+  .intro .ic{font-size:18px;line-height:1.5} .intro p{margin:0;color:var(--ink-70);font-size:14px;line-height:1.7} .intro b{color:var(--ink);font-weight:600}
+  .stage{display:grid;grid-template-columns:1.35fr 1fr;gap:40px;align-items:start}
+  @media(max-width:1040px){.stage{grid-template-columns:1fr;gap:28px}}
+  .path{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;min-height:28px}
+  .chip{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:.04em;background:var(--card);color:var(--ink-70);padding:5px 10px 5px 8px;border-radius:999px;border:1px solid var(--ink-10);box-shadow:var(--shadow-sm);animation:chipIn .35s ease both}
+  .chip .num{width:16px;height:16px;border-radius:999px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-weight:600;font-size:10px}
+  .chip .arrow{color:var(--ink-20);margin-left:2px}
+  @keyframes chipIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+  .card{background:var(--card);border:1px solid var(--ink-10);border-radius:4px;padding:34px 36px 28px;box-shadow:var(--shadow-md);position:relative}
+  .card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent)}
+  @media(max-width:560px){.card{padding:24px 20px 20px}}
+  .q-num{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--accent);text-transform:uppercase;margin-bottom:10px}
+  .q-ko{font-family:var(--serif);font-weight:500;font-size:clamp(22px,2.3vw,28px);line-height:1.3;color:var(--ink);margin-bottom:4px}
+  .q-en{font-family:var(--serif);font-weight:400;font-style:italic;color:var(--ink-50);font-size:14.5px;margin-bottom:4px}
+  .example{margin-top:18px;padding:14px 16px;background:var(--tip-soft);border-left:3px solid var(--tip);font-size:13.5px;color:var(--ink);border-radius:0 3px 3px 0}
+  .example b{color:var(--tip);font-weight:600} .example .ic{display:inline-block;margin-right:6px}
+  .hint{margin-top:12px;padding:12px 14px;background:var(--paper-warm);border-left:2px solid var(--accent-mid);font-size:13.5px;color:var(--ink-70);border-radius:0 3px 3px 0}
+  .hint b{color:var(--ink);font-weight:600}
+  details.unsure{margin-top:12px}
+  details.unsure summary{cursor:pointer;list-style:none;font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--accent);padding:8px 0;user-select:none;display:inline-flex;align-items:center;gap:6px}
+  details.unsure summary::-webkit-details-marker{display:none}
+  details.unsure summary::before{content:'▸';font-family:var(--mono);transition:transform .2s ease;display:inline-block}
+  details.unsure[open] summary::before{transform:rotate(90deg)}
+  details.unsure .unsure-body{padding:12px 14px;margin-top:6px;background:#fbf2e9;border-left:2px solid #d4a87c;font-size:13px;color:var(--ink-70);border-radius:0 3px 3px 0}
+  details.unsure .unsure-body b{color:var(--ink);font-weight:600}
+  .options{display:flex;flex-direction:column;gap:10px;margin-top:26px}
+  .opt{display:grid;grid-template-columns:auto 1fr auto;align-items:flex-start;gap:16px;width:100%;text-align:left;background:var(--card);color:var(--ink);border:1px solid var(--ink-10);border-radius:3px;padding:15px 18px;cursor:pointer;font:inherit;transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease,background .15s ease;box-shadow:var(--shadow-sm)}
+  .opt:hover{border-color:var(--accent);background:linear-gradient(to right,var(--accent-soft),transparent 55%);transform:translateX(2px);box-shadow:var(--shadow-md)}
+  .opt:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .opt .idx{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--accent);font-weight:500;width:22px;text-align:left;padding-top:2px}
+  .opt .lbl{display:flex;flex-direction:column;gap:4px}
+  .opt .lbl .ko{font-size:15.5px;font-weight:500;color:var(--ink);line-height:1.4}
+  .opt .lbl .en{font-family:var(--serif);font-style:italic;font-size:12.5px;color:var(--ink-50)}
+  .opt .lbl .eg{font-size:12.5px;color:var(--ink-70);background:var(--ink-05);padding:4px 8px;border-radius:2px;margin-top:2px;display:inline-block;width:fit-content}
+  .opt .go{font-family:var(--mono);font-size:18px;color:var(--ink-20);transition:transform .2s ease,color .2s ease;padding-top:4px}
+  .opt:hover .go{color:var(--accent);transform:translateX(4px)}
+  .controls{display:flex;gap:10px;margin-top:24px;padding-top:20px;border-top:1px dashed var(--ink-10)}
+  .btn{font:inherit;font-family:var(--mono);font-size:12px;letter-spacing:.06em;padding:9px 14px;border-radius:2px;background:transparent;color:var(--ink-70);border:1px solid var(--ink-20);cursor:pointer;transition:all .15s ease}
+  .btn:hover{border-color:var(--ink);color:var(--ink);background:var(--ink-05)}
+  .btn.primary{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .btn.primary:hover{background:var(--accent);border-color:var(--accent);color:white}
+  .result-wrap{animation:fadeUp .5s ease both}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .result{background:var(--card);border:1px solid var(--ink-10);border-radius:4px;overflow:hidden;box-shadow:var(--shadow-lg)}
+  .result-head{padding:26px 32px 22px;background:linear-gradient(180deg,var(--accent) 0%,var(--accent-dark) 100%);color:#FCF0EC;position:relative}
+  .result-head::after{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.4' numOctaves='2'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.15 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");mix-blend-mode:overlay;pointer-events:none;opacity:.6}
+  .result-head .label{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;opacity:.85}
+  .result-head .name-ko{font-family:var(--serif);font-weight:600;font-size:clamp(26px,3.2vw,38px);line-height:1.1;margin-top:8px;letter-spacing:-0.01em}
+  .result-head .name-en{font-family:var(--serif);font-style:italic;font-weight:400;font-size:16px;opacity:.9;margin-top:4px}
+  .result-body{padding:24px 32px 26px}
+  .result-body h4{margin:18px 0 8px;font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:500}
+  .result-body h4:first-child{margin-top:0}
+  .result-body p{margin:0 0 14px;color:var(--ink);font-size:14.5px;line-height:1.7}
+  .result-body .study{margin:0 0 14px;padding:14px 16px;background:var(--tip-soft);border-left:3px solid var(--tip);font-size:13.5px;color:var(--ink);border-radius:0 3px 3px 0}
+  .result-body .study b{color:var(--tip);font-weight:600}
+  .result-body .en-note{font-family:var(--serif);font-style:italic;color:var(--ink-50);font-size:13.5px;padding-left:14px;border-left:2px solid var(--accent-mid)}
+  .result-body .ref{margin-top:20px;padding-top:18px;border-top:1px solid var(--ink-10);font-family:var(--mono);font-size:11px;color:var(--ink-50);letter-spacing:.04em}
+  .result-body .ref b{color:var(--ink);font-weight:500}
+  aside.tree-panel{position:sticky;top:24px;background:var(--card);border:1px solid var(--ink-10);border-radius:4px;padding:22px 22px 18px;box-shadow:var(--shadow-md);max-height:calc(100vh - 48px);overflow:auto}
+  @media(max-width:1040px){aside.tree-panel{position:static;max-height:none}}
+  .tree-title{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-50);margin-bottom:2px}
+  .tree-sub{font-family:var(--serif);font-style:italic;font-size:13px;color:var(--ink-50);margin-bottom:14px}
+  .tree-list{list-style:none;padding:0;margin:0;font-size:13px}
+  .tree-list ul{list-style:none;padding-left:14px;margin:4px 0;border-left:1px dashed var(--ink-10)}
+  .tree-list li{padding:3px 0 3px 10px;position:relative;color:var(--ink-70);transition:color .2s}
+  .tree-list li.group{font-weight:600;color:var(--ink);margin-top:6px;font-size:12px;letter-spacing:.02em;padding-left:0}
+  .tree-list li.leaf::before{content:'·';position:absolute;left:0;color:var(--ink-20)}
+  .tree-list li.leaf.active{color:var(--accent);font-weight:600}
+  .tree-list li.leaf.active::before{content:'●';color:var(--accent);font-size:9px;top:1px}
+  footer.foot{margin-top:48px;padding-top:20px;border-top:1px solid var(--rule);font-family:var(--mono);font-size:11px;color:var(--ink-50);letter-spacing:.04em;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+  .progress{height:2px;background:var(--ink-10);border-radius:999px;overflow:hidden;margin-bottom:18px}
+  .progress span{display:block;height:100%;background:var(--accent);transition:width .4s cubic-bezier(.4,0,.2,1)}
+  .drawer-overlay{position:fixed;inset:0;background:#18202C88;opacity:0;pointer-events:none;transition:opacity .25s ease;z-index:100}
+  .drawer-overlay.open{opacity:1;pointer-events:auto}
+  .drawer{position:fixed;top:0;right:0;bottom:0;width:460px;max-width:90vw;background:var(--paper);border-left:1px solid var(--ink-10);box-shadow:-20px 0 60px -20px #18202C55;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);z-index:101;overflow-y:auto}
+  .drawer.open{transform:translateX(0)}
+  .drawer-head{position:sticky;top:0;background:var(--paper);padding:22px 28px 16px;border-bottom:1px solid var(--ink-10);display:flex;justify-content:space-between;align-items:center;z-index:1}
+  .drawer-head h3{margin:0;font-family:var(--serif);font-weight:600;font-size:22px}
+  .drawer-close{background:none;border:none;font-size:22px;cursor:pointer;color:var(--ink-50);padding:4px 10px}
+  .drawer-close:hover{color:var(--ink)}
+  .drawer-body{padding:20px 28px 40px}
+  .drawer-body .group-head{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin:24px 0 10px;font-weight:500;padding-top:12px;border-top:1px dashed var(--ink-10)}
+  .drawer-body .group-head:first-child{margin-top:0;border-top:none;padding-top:0}
+  .drawer-body dl{margin:0}
+  .drawer-body dt{font-weight:600;font-size:14.5px;color:var(--ink);margin-top:14px}
+  .drawer-body dt .en{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--ink-50);font-size:13px;margin-left:6px}
+  .drawer-body dd{margin:4px 0 0;font-size:13.5px;color:var(--ink-70);line-height:1.65}
+  .drawer-body dd b{color:var(--ink)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="masthead">
+    <div class="top-row">
+      <div>
+        <div class="kicker"><span class="dot"></span><span>Decision Tree · 03 of 03</span><span style="color:var(--ink-20)">—</span><span>Portney &amp; Watkins (3e) · 초보자용</span></div>
+        <h1 class="title">어떻게 <em>표본</em>을 뽑아야 할까<span class="badge-beginner">BEGINNER</span></h1>
+        <div class="subtitle">누구를 어떻게 모집할지는 연구 결과가 <b>누구에게까지 적용되는지</b>를 결정합니다. 상황에 가장 잘 맞는 표집 방법을 예시와 함께 찾아가세요.</div>
+      </div>
+      <button class="glossary-btn" id="openGlossary" type="button">📖 용어 사전 열기</button>
+    </div>
+    <div class="intro">
+      <span class="ic">🧭</span>
+      <p><b>처음이라면</b> — 표집은 <b>두 갈래</b>로 나뉩니다: ① <b>확률 표집</b>은 모두에게 뽑힐 확률을 부여하여 표본이 모집단을 잘 대표하게 만듭니다(일반화에 유리). ② <b>비확률 표집</b>은 편의·판단·특성에 따라 뽑습니다(현실적이지만 대표성은 제한). 연구 질문과 현실적 제약을 함께 고려해 선택하세요. <b>대부분의 임상·재활 연구</b>는 현실적으로 편의 표집 또는 의도적 표집을 쓰며, 이때는 그 한계를 <b>논의(Discussion)</b>에 반드시 명시합니다.</p>
+    </div>
+  </header>
+  <div class="stage">
+    <main>
+      <div class="progress" aria-hidden="true"><span id="prog" style="width:0%"></span></div>
+      <div id="path" class="path"></div>
+      <div id="view"></div>
+      <div class="controls">
+        <button class="btn" id="back" type="button">← 뒤로 / Back</button>
+        <button class="btn primary" id="reset" type="button">처음부터 / Restart</button>
+      </div>
+    </main>
+    <aside class="tree-panel" aria-label="전체 트리 미리보기">
+      <div class="tree-title">Full Tree · 전체 구조</div>
+      <div class="tree-sub">진행 중인 경로가 강조되어 표시됩니다</div>
+      <ul class="tree-list" id="tree"></ul>
+    </aside>
+  </div>
+  <footer class="foot">
+    <span>출처 · Portney LG, Watkins MP. <i>Foundations of Clinical Research</i>, 3rd ed. Pearson, 2009. Chapter 8.</span>
+    <span>초보자용 재구성 · Beginner edition</span>
+  </footer>
+</div>
+
+<div class="drawer-overlay" id="drawerOverlay"></div>
+<aside class="drawer" id="drawer" aria-labelledby="drawerTitle">
+  <div class="drawer-head">
+    <h3 id="drawerTitle">용어 사전 <span style="font-family:var(--serif);font-style:italic;font-weight:400;color:var(--ink-50);font-size:15px">Glossary</span></h3>
+    <button class="drawer-close" id="closeGlossary" type="button" aria-label="닫기">✕</button>
+  </div>
+  <div class="drawer-body">
+    <div class="group-head">1. 모집단과 표본의 기본</div>
+    <dl>
+      <dt>모집단 <span class="en">population</span></dt>
+      <dd>연구 결과를 <b>일반화하고 싶은 전체 대상</b>. 예: "국내 모든 뇌졸중 환자".</dd>
+      <dt>접근가능 모집단 <span class="en">accessible population</span></dt>
+      <dd>현실적으로 연구자가 접근 가능한 모집단의 부분. 예: "A대학병원 재활의학과 외래 뇌졸중 환자". 대부분의 연구는 이 수준에서 표집합니다.</dd>
+      <dt>표집 프레임 <span class="en">sampling frame</span></dt>
+      <dd>실제로 표본을 뽑을 때 사용하는 <b>대상자 명단·목록</b>. 예: 환자 등록부, 주민등록 명부.</dd>
+      <dt>표본 <span class="en">sample</span></dt>
+      <dd>실제로 연구에 참여한 사람들. 좋은 표본은 모집단의 <b>축소판</b>이 되어야 합니다.</dd>
+      <dt>대표성 <span class="en">representativeness</span></dt>
+      <dd>표본이 모집단의 구성·특성을 얼마나 잘 반영하는가. 높을수록 <b>일반화</b>가 타당해집니다.</dd>
+    </dl>
+
+    <div class="group-head">2. 확률 표집 개념</div>
+    <dl>
+      <dt>확률 표집 <span class="en">probability sampling</span></dt>
+      <dd>모집단의 <b>모든 구성원이 알려진 0 아닌 확률로 뽑힐 수 있는</b> 표집. 표본의 대표성을 수학적으로 보장할 수 있어 <b>통계적 일반화</b>가 가능합니다.</dd>
+      <dt>무작위 추출 <span class="en">random selection</span></dt>
+      <dd>명단에서 누가 뽑힐지 <b>우연(난수)</b>에 맡기는 것. 표집에서의 "무작위"는 <b>무작위 배정(random assignment)</b>과 다릅니다 — 배정은 이미 뽑힌 사람을 집단에 나누는 것입니다.</dd>
+      <dt>표집오차 <span class="en">sampling error</span></dt>
+      <dd>표본으로부터의 추정치와 실제 모집단 값의 차이. 확률 표집에서는 이 오차의 크기를 수학적으로 계산할 수 있습니다(예: 95% 신뢰구간).</dd>
+      <dt>일반화 가능성 <span class="en">generalizability</span></dt>
+      <dd>표본 결과를 더 넓은 모집단에 적용할 수 있는 정도. 확률 표집이 이를 가장 잘 보장합니다.</dd>
+    </dl>
+
+    <div class="group-head">3. 층화·군집 개념</div>
+    <dl>
+      <dt>층 · 층화 <span class="en">stratum · stratified</span></dt>
+      <dd>모집단을 <b>특성별 하위집단(층)</b>으로 먼저 나눈 뒤, 각 층에서 따로 표본을 뽑는 방식. 성별·연령·지역처럼 결과에 영향을 줄 만한 변수로 층을 짭니다. <b>정확도가 높아집니다</b>.</dd>
+      <dt>비례 vs 불비례 층화 <span class="en">proportional vs disproportional</span></dt>
+      <dd><b>비례</b>: 각 층의 크기에 비례해 뽑음(모집단 비율 유지). <b>불비례</b>: 작은 층을 일부러 더 많이 뽑음(소수집단을 정확히 추정하기 위해). 불비례에서는 분석 시 <b>가중치</b>를 적용해야 합니다.</dd>
+      <dt>군집 <span class="en">cluster</span></dt>
+      <dd>지리적·조직적으로 자연스럽게 묶인 단위. 예: 학교, 병동, 동(洞). 개인 단위 명단이 없을 때 <b>군집을 먼저 뽑은 뒤 그 안의 개인을 조사</b>하면 현실적입니다.</dd>
+      <dt>군집내 상관 <span class="en">intracluster correlation (ICC)</span></dt>
+      <dd>같은 군집 안 사람들은 서로 비슷한 경향이 있어 <b>독립적 정보량이 줄어드는</b> 문제. 분석에서 설계효과(design effect)로 보정합니다.</dd>
+      <dt>단일·다단계 <span class="en">single-stage · multistage</span></dt>
+      <dd><b>단일단계</b>: 뽑힌 군집 내 <b>전원</b>을 조사. <b>다단계</b>: 군집을 여러 단계로 뽑은 후(예: 시 → 학교 → 학급 → 학생) 마지막 단계에서 개인 뽑기.</dd>
+    </dl>
+
+    <div class="group-head">4. 비확률 표집 개념</div>
+    <dl>
+      <dt>비확률 표집 <span class="en">non-probability sampling</span></dt>
+      <dd>뽑힐 확률을 계산할 수 없는 표집. <b>편의성·실행 가능성·이론적 유용성</b>에 초점. 통계적 일반화보다는 <b>분석적 통찰</b>을 추구할 때 쓰입니다.</dd>
+      <dt>편의 표집 <span class="en">convenience sampling</span></dt>
+      <dd>가장 가까이 있는·접근하기 쉬운 사람을 뽑는 방식. <b>빠르고 저렴</b>하지만 <b>자원자 편향·선택 편향</b>에 취약.</dd>
+      <dt>할당 표집 <span class="en">quota sampling</span></dt>
+      <dd>성별·연령 등 주요 특성의 <b>비율을 미리 정해두고</b> 각 칸이 채워질 때까지 편의적으로 모집. 확률 표집은 아니지만 특정 인구 비율은 맞출 수 있습니다.</dd>
+      <dt>눈덩이 표집 <span class="en">snowball sampling</span></dt>
+      <dd>참여자가 <b>다른 참여자를 소개</b>해 표본을 확장. 희귀 집단·숨겨진 집단(예: 마약 사용자, 희귀질환자) 연구에 유용.</dd>
+      <dt>의도적 표집 <span class="en">purposive sampling</span></dt>
+      <dd>연구자가 <b>특정 기준·특성</b>을 가진 참여자를 의도적으로 선택. 질적 연구에서 가장 흔하며, "정보가 풍부한 사례"를 고르는 것이 핵심.</dd>
+      <dt>자원자 편향 · 선택 편향 <span class="en">volunteer · selection bias</span></dt>
+      <dd><b>자원해서 온 사람들은 평균적으로 건강관심·동기가 높음</b> 등 모집단과 체계적으로 다를 수 있음. 비확률 표집의 주요 약점.</dd>
+    </dl>
+
+    <div class="group-head">5. 분석 보정</div>
+    <dl>
+      <dt>역확률 가중치 <span class="en">inverse-probability weighting</span></dt>
+      <dd>각 표본에 <b>뽑힐 확률의 역수</b>를 가중치로 적용하여 복합표집·불비례 층화 자료를 모집단 수준에서 해석할 수 있게 보정.</dd>
+      <dt>설계효과 <span class="en">design effect</span></dt>
+      <dd>단순 무작위 표집 대비 <b>복합 설계가 분산을 얼마나 늘리는지</b>를 나타내는 계수. 표본 크기 산정 시 반영합니다.</dd>
+      <dt>포화 <span class="en">saturation</span></dt>
+      <dd>질적 연구에서 <b>새로운 정보가 더 이상 나오지 않는 시점</b>. 의도적 표집에서 표본 크기를 결정하는 기준이 됩니다.</dd>
+    </dl>
+  </div>
+</aside>
+
+<script>
+const nodes = {
+  start: {
+    q_ko:"모든 구성원에게 <b>뽑힐 확률</b>을 부여할 수 있는 환경인가요?", q_en:"Can you assign a known, non-zero selection probability to every member?",
+    hint:"이 첫 질문이 전체 방향을 결정합니다. 모집단 <b>명단(표집 프레임)</b>이 있고 거기서 체계적으로 뽑을 수 있다면 확률 표집이 가능합니다. 그렇지 않다면 비확률 표집으로 갑니다.",
+    example:"<i>확률 표집이 가능한 예</i>: 한 병원의 모든 환자 DB에서 난수로 선택. <i>불가능한 예</i>: 외래 대기실에 있는 환자에게 참여를 부탁, SNS 공고로 모집, 희귀 질환자 수소문.",
+    unsureTitle:"잘 모르겠다면",
+    unsure:"\"<b>명단이 있고 거기서 뽑을 수 있는가?</b>\"로 판단하세요. 명단이 있으면 확률 표집 쪽, 없으면 비확률 쪽으로 가세요. 임상·재활 연구는 현실적으로 비확률이 많습니다 — <b>편의 표집이어도 괜찮지만 한계를 명시해야 합니다</b>.",
+    opts:[
+      {id:'prob',    ko:'예 — 모집단 명단이 있고 우연에 의해 뽑을 수 있다 · 확률 표집',
+       en:'Yes — probability sampling is feasible',
+       eg:'예: 환자 등록부, 주민등록 명부, 학생 명단', next:'p_struct'},
+      {id:'nonprob', ko:'아니오 — 명단이 없거나 현실적 제약이 크다 · 비확률 표집',
+       en:'No — non-probability sampling',
+       eg:'예: 외래에서 동의한 환자, SNS 공고 모집', next:'n_aim'},
+    ]
+  },
+
+  // PROBABILITY BRANCH
+  p_struct: {
+    q_ko:"모집단에 <b>하위집단(성별·연령·지역 등)</b>이 뚜렷하거나, <b>지리적·조직적 군집</b>이 있나요?", q_en:"Are there clear strata or natural clusters?",
+    hint:"모집단이 단일하고 비교적 동질이면 단순 추출이 충분하지만, <b>하위집단의 구성이 결과에 영향</b>을 주거나 <b>군집 단위로만 접근 가능</b>할 때는 그 구조를 살려야 합니다.",
+    example:"<i>단순 구조</i>: 한 병원의 단일 질환 외래 환자 명단. <i>층화가 필요</i>: 성별·중증도가 결과에 영향을 주는 상황. <i>군집이 필요</i>: 전국 100개 학교 중 일부 학교를 뽑아 학생 조사.",
+    unsureTitle:"잘 모르겠다면",
+    unsure:"명단이 단일하고 모두 비슷한 특성이면 <b>단순 무작위</b> 또는 <b>계통</b> 추출로 충분합니다. 성별·연령 비율이 중요하면 <b>층화</b>, 지리적으로 흩어져 있어 한 곳씩 접근하기 어려우면 <b>군집</b> 또는 <b>다단계</b>를 고려하세요.",
+    opts:[
+      {id:'simple', ko:'단순 구조 — 단일 명단에서 바로 뽑는다',
+       en:'Simple structure', eg:'예: 한 병원의 전체 환자 명단에서 무작위 추출', next:'p_simple_mode'},
+      {id:'strat',  ko:'하위집단(층)의 구성이 결과에 영향을 준다 · 층화',
+       en:'Stratified sampling', eg:'예: 남녀 비율, 질환 중증도, 연령대별 구성', next:'p_strat_prop'},
+      {id:'clus',   ko:'지리적·조직적 군집 단위로만 접근 가능 · 군집',
+       en:'Cluster / multistage', eg:'예: 전국 병원 중 일부, 학교 중 일부만 방문', next:'p_cluster_stage'},
+    ]
+  },
+
+  p_simple_mode: {
+    q_ko:"단순 추출은 <b>난수</b>로 하나요, <b>일정 간격</b>으로 하나요?", q_en:"Random numbers or systematic interval?",
+    hint:"둘 다 확률 표집이며 결과는 대부분 비슷합니다. 계통 추출은 명단이 길 때 <b>실행이 간편</b>하지만 주기적 규칙(예: 명단이 부부 순으로 정렬됨)이 있으면 왜곡될 수 있습니다.",
+    example:"<i>단순 무작위</i>: 전체 2,000명에서 난수표로 100명. <i>계통</i>: 매 20번째 사람(2000÷100=20)을 선택, 시작점만 무작위로.",
+    unsureTitle:"잘 모르겠다면",
+    unsure:"교과서·논문에서 가장 많이 인용되는 <b>표준은 단순 무작위</b>입니다. 계통 추출은 편리하지만 명단 정렬이 결과와 상관없을 때만 안전합니다.",
+    opts:[
+      {id:'srs', ko:'난수표·난수 함수로 뽑는다 · 단순 무작위 추출',
+       en:'Simple random sampling', eg:'예: R·엑셀에서 RAND()로 100명 선택', next:'res_srs'},
+      {id:'sys', ko:'명단 길이 ÷ 표본 크기 = 간격(k), 매 k번째를 뽑는다 · 계통 추출',
+       en:'Systematic sampling', eg:'예: 2,000명에서 매 20번째, 시작은 무작위', next:'res_systematic'},
+    ]
+  },
+
+  p_strat_prop: {
+    q_ko:"각 층에서 <b>모집단 비율대로</b> 뽑나요, 아니면 <b>작은 층을 일부러 더</b> 뽑나요?", q_en:"Proportional or disproportional stratification?",
+    hint:"<b>비례 층화</b>는 가장 흔하며 해석이 단순합니다. <b>불비례 층화</b>는 드문 집단의 정확한 추정이 필요할 때 사용하고, 분석 시 가중치를 적용해야 합니다.",
+    example:"남 60%·여 40% 모집단에서 표본 100명을 뽑을 때: <i>비례</i> — 남 60, 여 40. <i>불비례</i> — 여 50, 남 50(여성 추정치 정밀도 확보).",
+    unsureTitle:"잘 모르겠다면",
+    unsure:"기본은 <b>비례 층화</b>입니다. 모집단 대표성이 유지되고 해석도 직관적입니다. 소수 집단(예: 희귀 질환자)의 <b>하위 집단별 추정치</b>가 연구의 핵심이면 불비례를 고려하세요.",
+    opts:[
+      {id:'prop',    ko:'각 층 크기에 비례해서 뽑는다 · 비례 층화',
+       en:'Proportional stratified', eg:'예: 모집단 성비 60:40 → 표본도 60:40', next:'res_strat_prop'},
+      {id:'disprop', ko:'작은 층에서 일부러 더 많이 뽑아 정밀도를 확보한다 · 불비례 층화',
+       en:'Disproportional stratified', eg:'예: 여성 환자 50%, 가중치 보정 분석', next:'res_strat_disprop'},
+    ]
+  },
+
+  p_cluster_stage: {
+    q_ko:"선택된 군집 내에서 <b>전원을 조사</b>하나요, 아니면 <b>여러 단계로 나누어</b> 뽑나요?", q_en:"Single-stage or multi-stage cluster sampling?",
+    hint:"단일단계는 뽑힌 군집의 구성원 전체를 조사합니다. 다단계는 여러 수준(시 → 학교 → 학급 → 학생)에서 순차적으로 뽑아 비용·접근성을 조절합니다.",
+    example:"<i>단일단계</i>: 전국 1,000개 병동 중 20곳을 뽑고 <b>그 병동 전체 간호사</b>를 조사. <i>다단계</i>: 시 → 구 → 동 → 가구 → 개인으로 4단계 표집.",
+    unsureTitle:"잘 모르겠다면",
+    unsure:"군집의 크기가 <b>작고 감당 가능</b>하면 단일단계가 간단합니다. 모집단이 지리적으로 <b>매우 넓거나 다층적</b>이면 다단계가 거의 필수.",
+    opts:[
+      {id:'single', ko:'선택된 군집의 모든 구성원을 조사한다 · 단일단계 군집 추출',
+       en:'Single-stage cluster sampling',
+       eg:'예: 선정된 병동의 전체 간호사 조사', next:'res_cluster'},
+      {id:'multi',  ko:'군집을 여러 단계로 연속해서 뽑는다 · 다단계 표집',
+       en:'Multistage sampling',
+       eg:'예: 시 → 구 → 동 → 가구 → 개인 4단계 표집', next:'res_multistage'},
+    ]
+  },
+
+  // NON-PROBABILITY BRANCH
+  n_aim: {
+    q_ko:"비확률 상황에서 가장 중요한 <b>목적</b>은 무엇인가요?", q_en:"What matters most in your non-probability situation?",
+    hint:"비확률 표집에도 여러 논리가 있습니다. <b>빠르고 쉽게</b>, <b>비율 맞추기</b>, <b>접근이 어려운 집단</b>, <b>정보가 풍부한 사례</b> 중 어느 것이 핵심인지에 따라 방법이 달라집니다.",
+    example:"<i>빠르게</i>: 병원 외래에서 동의한 환자 모집(편의). <i>비율</i>: 성별·연령 구성을 모집단처럼 맞추기(할당). <i>희귀 집단</i>: 참여자가 동료를 소개(눈덩이). <i>이론적 정보</i>: 가장 경험이 풍부한 사례 선택(의도적).",
+    opts:[
+      {id:'fast',  ko:'가장 접근하기 쉬운 사람을 빠르게 모으는 게 우선이다 · 편의 표집',
+       en:'Easiest to reach · convenience',
+       eg:'예: 외래 대기실에서 동의한 환자', next:'res_convenience'},
+      {id:'quota', ko:'주요 인구 특성의 비율을 미리 정하고 채운다 · 할당 표집',
+       en:'Quota sampling', eg:'예: 남 50명·여 50명을 편의적으로 채움', next:'res_quota'},
+      {id:'snow',  ko:'참여자가 다른 참여자를 소개해야 접근 가능하다 · 눈덩이 표집',
+       en:'Snowball sampling', eg:'예: 희귀질환 자조모임, 노숙인, 불법 약물 사용자', next:'res_snowball'},
+      {id:'purp',  ko:'연구 목적에 맞는 특성·경험을 가진 사람을 의도적으로 고른다 · 의도적 표집',
+       en:'Purposive sampling',
+       eg:'예: 질적 연구에서 경험이 풍부한 정보 제공자', next:'res_purposive'},
+    ]
+  },
+
+  // TERMINAL NODES
+  res_srs: { result: {
+    group:'Probability · 확률 표집',
+    ko:'단순 무작위 추출 (Simple random sampling)', en:'Simple random sampling',
+    use:'모집단 명단에서 <b>모든 사람이 같은 확률</b>로 뽑히도록 난수를 사용해 선택합니다. 가장 기본적이고 해석이 단순하며, 통계 이론의 전제와 가장 잘 맞습니다.',
+    study:'예시 연구 — "A대학병원 재활의학과 외래 환자 <b>1,200명 명단</b>에서 R의 sample() 함수로 <b>120명을 난수 추출</b>해 만성통증 유병률을 조사." 전체 명단 + 난수 → <b>단순 무작위 추출</b>.',
+    enNote:'Every member has an equal, independent chance of selection via random numbers.',
+    ref:'Chapter 8 — Probability Sampling'
+  }},
+  res_systematic: { result: {
+    group:'Probability · 확률 표집',
+    ko:'계통(체계적) 추출 (Systematic sampling)', en:'Systematic sampling',
+    use:'명단 길이 N ÷ 표본 크기 n = 간격 k를 계산하고, <b>시작점만 무작위</b>로 정한 뒤 매 k번째를 선택합니다. 실행이 간편하나 명단 정렬이 주기적이면 편향 위험이 있습니다.',
+    study:'예시 연구 — "대학병원 외래 DB <b>2,000명</b>에서 표본 100명을 뽑기 위해 <b>간격 k=20</b>을 계산, 난수로 시작점 7번을 고른 뒤 7·27·47···번째 대상자를 선택." 일정 간격 추출 → <b>계통 추출</b>.',
+    enNote:'Selects every k-th unit from an ordered list after a random start.',
+    ref:'Chapter 8 — Systematic Sampling'
+  }},
+  res_strat_prop: { result: {
+    group:'Probability · 확률 표집',
+    ko:'비례 층화 추출 (Proportional stratified sampling)', en:'Proportional stratified sampling',
+    use:'모집단을 주요 특성별 <b>층</b>으로 먼저 나눈 뒤 각 층에서 <b>층 크기에 비례</b>해 뽑습니다. 중요한 하위 구성비가 표본에서 보장되어 <b>추정 정확도</b>가 향상됩니다.',
+    study:'예시 연구 — "지역 성인 모집단의 연령 구성이 20–30대 40% · 40–50대 35% · 60대 이상 25%일 때, 표본 400명을 <b>각각 160·140·100명</b>으로 층별 무작위 추출." 비율 유지 → <b>비례 층화</b>.',
+    enNote:'Population divided into strata; each stratum sampled in proportion to its size.',
+    ref:'Chapter 8 — Stratified Sampling'
+  }},
+  res_strat_disprop: { result: {
+    group:'Probability · 확률 표집',
+    ko:'불비례 층화 추출 (Disproportional stratified sampling)', en:'Disproportional stratified sampling',
+    use:'특정 <b>소수 층의 정확한 추정</b>이 필요할 때 그 층에서 상대적으로 더 많이 뽑습니다. 전체 모수 추정을 위해서는 <b>역확률 가중치</b> 등으로 분석을 보정해야 합니다.',
+    study:'예시 연구 — "드문 질환의 하위 유형별 특성을 정확히 보기 위해 <b>주 유형 환자 200명·희귀 유형 환자 200명</b>을 각 층에서 동수로 추출하고, 전체 유병률 추정 시 <b>가중치</b>를 적용." 소수 층 강조 → <b>불비례 층화</b>.',
+    enNote:'Oversamples small strata for precision; requires weighted analysis.',
+    ref:'Chapter 8 — Disproportional Stratified'
+  }},
+  res_cluster: { result: {
+    group:'Probability · 확률 표집',
+    ko:'단일단계 군집 추출 (Single-stage cluster sampling)', en:'Single-stage cluster sampling',
+    use:'모집단을 자연스러운 <b>군집(학교·병동·지역)</b>으로 나누고 일부 군집을 무작위로 뽑은 뒤, 선택된 군집의 <b>모든 구성원</b>을 조사합니다. 현지 조사 비용을 줄일 수 있으나 <b>군집내 상관(ICC)</b> 때문에 분산이 커집니다.',
+    study:'예시 연구 — "전국 요양병원 500곳 중 <b>무작위로 30곳</b>을 뽑아 각 병원의 <b>전체 간호사</b>에게 번아웃 설문을 실시. 분석 시 병원 단위 군집을 고려한 혼합모형 적용." 군집 단위 표집 → <b>단일단계 군집</b>.',
+    enNote:'Clusters are randomly sampled; all members within selected clusters are measured.',
+    ref:'Chapter 8 — Cluster Sampling'
+  }},
+  res_multistage: { result: {
+    group:'Probability · 확률 표집',
+    ko:'다단계 표집 (Multistage sampling)', en:'Multistage sampling',
+    use:'여러 수준에서 <b>순차적으로 표본을 뽑는</b> 복합 설계. 넓은 지역·다층 조직 연구에서 현실적 선택지이며, 분석 시 <b>설계효과</b>를 반드시 반영합니다.',
+    study:'예시 연구 — "전국 청소년 건강실태 조사를 위해 <b>1단계</b> 시·도 중 10개 → <b>2단계</b> 각 시·도에서 학교 20개 → <b>3단계</b> 각 학교에서 학급 2개 → <b>4단계</b> 각 학급에서 학생 15명을 순차적으로 뽑는 4단계 설계." 다단계 순차 → <b>다단계 표집</b>.',
+    enNote:'Selection performed in two or more stages (e.g., city → school → student).',
+    ref:'Chapter 8 — Multistage Sampling'
+  }},
+  res_convenience: { result: {
+    group:'Non-probability · 비확률 표집',
+    ko:'편의 표집 (Convenience sampling)', en:'Convenience sampling',
+    use:'접근 가능한 사람을 있는 그대로 모집하는 가장 실용적인 방식. 빠르고 저렴하지만 <b>자원자 편향·선택 편향</b>이 크고 결과의 모집단 일반화가 제한됩니다. 논의 섹션에 한계를 반드시 명시합니다.',
+    study:'예시 연구 — "B병원 외래를 방문한 만성요통 환자 중 연구 설명 후 <b>동의한 87명</b>을 순차 등록하여 운동 프로그램의 효과를 평가." 외래 방문자 중 동의자 → <b>편의 표집</b>.',
+    enNote:'Selects the most accessible individuals; subject to volunteer and selection bias.',
+    ref:'Chapter 8 — Convenience Sampling'
+  }},
+  res_quota: { result: {
+    group:'Non-probability · 비확률 표집',
+    ko:'할당 표집 (Quota sampling)', en:'Quota sampling',
+    use:'주요 특성의 비율(성·연령 등)을 <b>사전에 설정</b>해 각 칸이 채워질 때까지 편의적으로 모집합니다. 확률 표집은 아니지만 <b>인구 구성 비율</b>은 비슷하게 맞출 수 있습니다.',
+    study:'예시 연구 — "지역 인구 구성에 맞춰 <b>남 150·여 150, 각 연령대 균등</b>으로 할당을 정하고, 이 비율이 채워질 때까지 공공장소에서 편의적으로 인터뷰." 사전 할당 + 편의 모집 → <b>할당 표집</b>.',
+    enNote:'Non-random sampling to meet preset demographic quotas.',
+    ref:'Chapter 8 — Quota Sampling'
+  }},
+  res_snowball: { result: {
+    group:'Non-probability · 비확률 표집',
+    ko:'눈덩이 표집 (Snowball sampling)', en:'Snowball sampling',
+    use:'초기 참여자가 <b>다른 적격 참여자를 소개</b>해 연쇄적으로 표본을 확장. 희귀·숨겨진·낙인받은 집단에 접근할 수 있는 드문 방법이지만 초기 참여자의 연결망에 의해 결과가 편향될 수 있습니다.',
+    study:'예시 연구 — "국내 희귀 신경근육 질환 환자 모임을 통해 <b>초기 5명</b>을 모집한 뒤, 이들이 소개한 다른 환자·가족을 순차적으로 추가하여 <b>32명</b>의 심층 인터뷰 표본 구성." 연쇄 소개 → <b>눈덩이 표집</b>.',
+    enNote:'Participants recruit other participants through their networks.',
+    ref:'Chapter 8 — Snowball Sampling'
+  }},
+  res_purposive: { result: {
+    group:'Non-probability · 비확률 표집',
+    ko:'의도적 표집 (Purposive sampling)', en:'Purposive sampling',
+    use:'연구 목적에 맞는 <b>특정 기준·경험·전문성</b>을 가진 사람을 의도적으로 선정. 질적 연구의 기본 전략이며, 표본 크기는 대개 <b>정보 포화(saturation)</b> 시점에서 결정됩니다.',
+    study:'예시 연구 — "뇌졸중 후 가정복귀 경험을 탐색하기 위해 <b>퇴원 후 3개월 이상이 지났고 가족과 동거하며 인터뷰가 가능한 15명</b>을 기준에 따라 의도적으로 선정, 주제가 포화될 때까지 인터뷰." 기준 기반 선정 → <b>의도적 표집</b>.',
+    enNote:'Deliberate selection of information-rich cases based on predefined criteria.',
+    ref:'Chapter 8 — Purposive Sampling'
+  }},
+};
+
+const treeOverview = [
+  { group:'① 확률 표집 (Probability)', items:[
+    ['res_srs','단순 무작위','Simple random'],
+    ['res_systematic','계통(체계적)','Systematic'],
+    ['res_strat_prop','비례 층화','Proportional stratified'],
+    ['res_strat_disprop','불비례 층화','Disproportional stratified'],
+    ['res_cluster','단일단계 군집','Single-stage cluster'],
+    ['res_multistage','다단계 표집','Multistage'],
+  ]},
+  { group:'② 비확률 표집 (Non-probability)', items:[
+    ['res_convenience','편의 표집','Convenience'],
+    ['res_quota','할당 표집','Quota'],
+    ['res_snowball','눈덩이 표집','Snowball'],
+    ['res_purposive','의도적 표집','Purposive'],
+  ]},
+];
+
+let history=[], currentNode='start';
+const ESTIMATED_DEPTH=3;
+const $=s=>document.querySelector(s);
+const view=$('#view'), pathEl=$('#path'), progEl=$('#prog'), treeEl=$('#tree');
+
+function renderTreeOverview(){
+  treeEl.innerHTML='';
+  treeOverview.forEach(sec=>{
+    const g=document.createElement('li'); g.className='group'; g.textContent=sec.group; treeEl.appendChild(g);
+    const ul=document.createElement('ul');
+    sec.items.forEach(([id,ko,en])=>{
+      const li=document.createElement('li'); li.className='leaf'; li.dataset.leaf=id;
+      li.innerHTML=`<span style="color:var(--ink)">${ko}</span> <span style="color:var(--ink-50);font-style:italic">· ${en}</span>`;
+      ul.appendChild(li);
+    });
+    treeEl.appendChild(ul);
+  });
+}
+function updateTreeHighlight(id){
+  treeEl.querySelectorAll('li.leaf').forEach(li=>{
+    li.classList.remove('active');
+    if(id && li.dataset.leaf===id){ li.classList.add('active'); li.scrollIntoView({block:'nearest',behavior:'smooth'}); }
+  });
+}
+function renderPath(){
+  pathEl.innerHTML='';
+  history.forEach((h,i)=>{
+    const c=document.createElement('span'); c.className='chip';
+    c.innerHTML=`<span class="num">${i+1}</span>${h.chipLabel}${i<history.length-1?'<span class="arrow">›</span>':''}`;
+    pathEl.appendChild(c);
+  });
+}
+function renderQuestion(id){
+  const n=nodes[id]; if(!n) return;
+  if(n.result){ renderResult(n.result,id); updateTreeHighlight(id); return; }
+  updateTreeHighlight(null);
+  progEl.style.width=Math.min(100,(history.length/ESTIMATED_DEPTH)*100)+'%';
+  view.innerHTML=`
+    <div class="card">
+      <div class="q-num">Question ${history.length+1}</div>
+      <div class="q-ko">${n.q_ko}</div>
+      <div class="q-en">${n.q_en}</div>
+      ${n.hint?`<div class="hint">${n.hint}</div>`:''}
+      ${n.example?`<div class="example"><span class="ic">💡</span><b>예시</b> — ${n.example}</div>`:''}
+      ${n.unsure?`<details class="unsure"><summary>${n.unsureTitle||'잘 모르겠다면'}</summary><div class="unsure-body">${n.unsure}</div></details>`:''}
+      <div class="options"></div>
+    </div>`;
+  const o=view.querySelector('.options');
+  n.opts.forEach((opt,i)=>{
+    const b=document.createElement('button'); b.className='opt'; b.type='button';
+    b.innerHTML=`<span class="idx">${String.fromCharCode(65+i)}</span>
+      <span class="lbl">
+        <span class="ko">${opt.ko}</span>
+        <span class="en">${opt.en}</span>
+        ${opt.eg?`<span class="eg">${opt.eg}</span>`:''}
+      </span>
+      <span class="go">→</span>`;
+    b.addEventListener('click',()=>{
+      const chipLabel=opt.ko.split(/[·—]/)[0].trim();
+      history.push({nodeId:id,optId:opt.id,chipLabel});
+      currentNode=opt.next; renderPath(); renderQuestion(currentNode);
+    });
+    o.appendChild(b);
+  });
+}
+function renderResult(r,id){
+  progEl.style.width='100%';
+  view.innerHTML=`
+    <div class="result-wrap">
+      <div class="result">
+        <div class="result-head">
+          <div class="label">권장 표집 방법 · Recommended method</div>
+          <div class="name-ko">${r.ko}</div>
+          <div class="name-en">${r.en}</div>
+        </div>
+        <div class="result-body">
+          <h4>언제 사용 When to use</h4>
+          <p>${r.use}</p>
+          ${r.study?`<div class="study"><b>💡 예시 연구</b> — ${r.study}</div>`:''}
+          <p class="en-note">${r.enNote}</p>
+          <div class="ref">참고 · ${r.ref} · <b>Portney &amp; Watkins (3e)</b></div>
+        </div>
+      </div>
+    </div>`;
+}
+$('#back').addEventListener('click',()=>{
+  if(!history.length) return;
+  const last=history.pop(); currentNode=last.nodeId;
+  renderPath(); renderQuestion(currentNode);
+});
+$('#reset').addEventListener('click',()=>{
+  history=[]; currentNode='start'; renderPath(); renderQuestion(currentNode);
+});
+const drawer=$('#drawer'), drawerOverlay=$('#drawerOverlay');
+function openDrawer(){ drawer.classList.add('open'); drawerOverlay.classList.add('open'); }
+function closeDrawer(){ drawer.classList.remove('open'); drawerOverlay.classList.remove('open'); }
+$('#openGlossary').addEventListener('click',openDrawer);
+$('#closeGlossary').addEventListener('click',closeDrawer);
+drawerOverlay.addEventListener('click',closeDrawer);
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeDrawer(); });
+
+renderTreeOverview(); renderQuestion(currentNode);
+</script>
+</body>
+</html>
